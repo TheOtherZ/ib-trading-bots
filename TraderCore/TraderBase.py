@@ -51,8 +51,8 @@ class TraderBase(object):
 
       if not self.simulation:
          # Create/open save file
-         if not Path.exists(path):
-            os.makedirs(path)
+         if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
          path = Path(self.save_name)
          if not path.is_file():
             print("save does not exist, creating: " + self.save_name)
