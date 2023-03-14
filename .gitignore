@@ -1,0 +1,8 @@
+Data/**/*.csv
+Data/**/*.txt
+**/__pycache__/*
+IBEnv/*
+*.log
+pythonclient/*
+.vscode/*
+**/Save/*
