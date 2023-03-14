@@ -4,6 +4,7 @@ from ibapi.wrapper import BarData
 
 from TraderCore.TradingCosts import TradingCosts, ibkr_trading_costs
 from pathlib import Path
+import os
 import json
 
 class TraderBase(object):
@@ -50,6 +51,8 @@ class TraderBase(object):
 
       if not self.simulation:
          # Create/open save file
+         if not Path.exists(path):
+            os.makedirs(path)
          path = Path(self.save_name)
          if not path.is_file():
             print("save does not exist, creating: " + self.save_name)

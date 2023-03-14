@@ -22,9 +22,6 @@ class CrossingBot(TraderBase):
       self.purge_bars = purge_bars
       self.purge_count = 0
 
-      if not os.path.exists(save_dir):
-         os.makedirs(save_dir)
-
       if not self.simulation:
          data = None
          save = open(self.save_name, "r")
