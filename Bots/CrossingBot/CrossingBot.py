@@ -1,4 +1,5 @@
 import logging
+import os
 
 from ibapi.wrapper import BarData
 
@@ -20,6 +21,9 @@ class CrossingBot(TraderBase):
       self.stop_loss_percent = stop_loss
       self.purge_bars = purge_bars
       self.purge_count = 0
+
+      if not os.path.exists(save_dir):
+         os.makedirs(save_dir)
 
       if not self.simulation:
          data = None
