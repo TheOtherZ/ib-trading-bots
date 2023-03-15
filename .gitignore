@@ -6,3 +6,4 @@ IBEnv/*
 pythonclient/*
 .vscode/*
 **/Save/*
+**/*Production.txt
