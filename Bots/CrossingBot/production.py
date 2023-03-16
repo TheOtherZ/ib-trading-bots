@@ -116,14 +116,14 @@ def multiProduction():
    ip = "127.0.0.1"
    # WBD ##########
    connectionWBD = ibapi.ConnectionInfo(ip, 7497, 1)
-   wbdBot = CrossingBot(60, 100, 0.3, 2.0, 36, 25, 24, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
+   wbdBot = CrossingBot(60, 100, 0.3, 1.0, 36, 25, 8, 0.2 log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
    wbdAPI = ibapi.IBInterface(wbdBot, Contract(symbol="WBD"))
    startBot(connectionWBD, wbdBot, wbdAPI)
    time.sleep(10)
 
    # META ##########
    connectionMETA = ibapi.ConnectionInfo(ip, 7497, 2)
-   metaBot = CrossingBot(40, 60, 0.3, 2.0, 8, 15, 12, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
+   metaBot = CrossingBot(40, 100, 0.3, 3.0, 8, 35, 12, 0.1, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
    metaAPI = ibapi.IBInterface(metaBot, Contract(symbol="META"))
    startBot(connectionMETA, metaBot, metaAPI)
 
