@@ -141,7 +141,7 @@ def multiProduction():
 
    # MRNA ##########
    connectionMRNA = ibapi.ConnectionInfo(ip, 7497, 4)
-   mrnaBot = CrossingBot(9, 8, 0.2, 1.0, 4, 10, 8, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
+   mrnaBot = CrossingBot(9, 8, 0.1, 1.0, 4, 10, 8, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
    mrnaAPI = ibapi.IBInterface(mrnaBot, Contract(symbol="MRNA"))
    startBot(connectionMRNA, mrnaBot, mrnaAPI)
 
