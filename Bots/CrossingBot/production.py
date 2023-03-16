@@ -145,26 +145,12 @@ def multiProduction():
    mrnaAPI = ibapi.IBInterface(mrnaBot, Contract(symbol="MRNA"))
    startBot(connectionMRNA, mrnaBot, mrnaAPI)
 
-   # Script usually started pre-market
-   print("Waiting for market open")
-   while not mrnaAPI.marketOpen():
-      time.sleep(5)
-   print("Market open")
-
    # Handle multi-day?
    while True:
-      in_val = input()
+      in_val = input("Enter q to quit")
       time.sleep(10)
       if str(in_val) == 'q':
          print("Manual disconnect")
-         wbdAPI.disconnect()
-         epamAPI.disconnect()
-         metaAPI.disconnect()
-         mrnaAPI.disconnect()
-         break
-      elif not mrnaAPI.marketOpen():
-         print("Market closed")
-         time.sleep(30) # give time for stuff to close out
          wbdAPI.disconnect()
          epamAPI.disconnect()
          metaAPI.disconnect()
