@@ -6,6 +6,7 @@ from ibapi.wrapper import BarData
 from ibapi.utils import decimalMaxString, floatMaxString
 
 from TraderCore.TraderBase import TraderBase
+from TraderCore.ConnectionInfo import ConnectionInfo
 
 import pandas_market_calendars as mcal
 import pandas as pd
@@ -210,15 +211,6 @@ class IBInterface(EClient, EWrapper):
       print("PositionEnd")
       self.cancelPositions()
 
-class ConnectionInfo(object):
-   def __init__(self, ip: str, port: int, id: int) -> None:
-     self.ip = ip
-     self.port = port
-     self.id = id
-   
-   def get_info(self) -> list:
-      return self.ip, self.port, self.id
-
 bar_sizes_secs = {
    "1 secs": 1,
    "5 secs": 5,
@@ -242,62 +234,3 @@ bar_sizes_secs = {
    "1 week": 60 * 60 * 24 * 7,
    "1 month": 60 * 60 * 24 * 7 * 4 #TODO:???
 }
-
-def test_connection():
-   intc_contract = Contract()
-   intc_contract.symbol = "INTC"
-   intc_contract.secType = "STK"
-   intc_contract.exchange = "SMART"
-   intc_contract.primaryExchange = "NYSE"
-   intc_contract.currency = "USD"
-
-   qqq_contract = Contract()
-   qqq_contract.symbol = "QQQ"
-   qqq_contract.secType = "STK"
-   qqq_contract.exchange = "SMART"
-   qqq_contract.currency = "USD"
-
-   base_trader = TraderBase(simulation=False, log_level=logging.INFO, log_file_name="connectionTesting.txt")
-   test_api = IBInterface(base_trader, intc_contract)
-
-   #connection = ConnectionInfo("192.168.50.243", 4002, 1)
-   connection = ConnectionInfo("192.168.50.243", 7497, 1)
-
-   test_api.connect(*connection.get_info())   
-   test_api.start_loop()
-   if not test_api.blockForConnection(5):
-      test_api.disconnect()
-      return
-   
-   test_api.reqPositions()
-   
-   # 10 minute bars
-   # history_seconds = 20 * 10 * 60
-   
-   # test_api.reqHistoricalData(test_api.next_order_id, test_api.contract, '',  f'{history_seconds} S', '2 mins', "TRADES", 0, 1, True, [])
-
-   # test_api.order.action = "BUY"
-   # test_api.order.totalQuantity = 100
-   # test_api.order.outsideRth = True
-   # test_api.placeOrder(test_api.next_order_id, test_api.contract, test_api.order)
-
-   # time.sleep(30)
-
-   # test_api.reqPositions()
-   # test_api.reqIds(-1)
-
-   # time.sleep(30)
-
-   # test_api.order.action = "SELL"
-   # test_api.order.totalQuantity = 100
-   # test_api.placeOrder(test_api.next_order_id, test_api.contract, test_api.order)
-
-   # time.sleep(30)
-   # test_api.reqPositions()
-   print("Order test done")
-
-   
-   #test_api.disconnect()
-
-if __name__ == "__main__":
-   test_connection()

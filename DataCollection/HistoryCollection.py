@@ -2,7 +2,7 @@ from ibapi.client import EClient
 from ibapi.contract import Contract
 from ibapi.wrapper import EWrapper
 from ibapi.wrapper import BarData
-from TraderCore.IBapi import ConnectionInfo
+from TraderCore.ConnectionInfo import ConnectionInfo
 
 import datetime
 import time

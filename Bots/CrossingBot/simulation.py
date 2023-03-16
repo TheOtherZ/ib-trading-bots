@@ -60,11 +60,11 @@ def simSingle():
 
 
 def simSP500():
-   test_trader_list = build_trader_list("short")
+   test_trader_list = build_trader_list("fast")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   ticker_file = "S&P500-Symbols.csv"
-   #ticker_file = "short_list.csv"
+   #ticker_file = "S&P500-Symbols.csv"
+   ticker_file = "short_list.csv"
 
    simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5)
 
