@@ -1,7 +1,7 @@
 Data/**/*.csv
 Data/**/*.txt
 **/__pycache__/*
-IBEnv/*
+*Env/*
 *.log
 pythonclient/*
 .vscode/*
