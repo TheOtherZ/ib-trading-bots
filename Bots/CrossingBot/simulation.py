@@ -4,14 +4,14 @@ def build_trader_list(frame="short"):
    trader_list = []
 
    if frame == "short":
-      average_window_list = [4, 9, 12, 20]
-      crossing_window_list = [3, 5, 8, 10]
+      average_window_list = [9, 12, 20]
+      crossing_window_list = [5, 8, 10]
       crossing_threshold_list = [.1, .2, .3]
-      stop_loss_list = [1.0, 1.5, 2.0, 2.5]
+      stop_loss_list = [1.5, 2.0, 2.5]
       rsi_list = [4, 8, 12]
       purge_list = [5, 10, 15]
-      sell_rsi_list = [4, 8, 12]
-      sell_crossing_list = [0.1]
+      sell_rsi_list = [8, 12]
+      sell_crossing_list = [-0.1, 0.1, 0.3]
    elif frame == "fast":
       average_window_list = [9, 12]
       crossing_window_list = [5, 8]
@@ -33,12 +33,12 @@ def build_trader_list(frame="short"):
    elif frame == "long":
       average_window_list = [40, 60, 80]
       crossing_window_list = [40, 60, 80, 100]
-      crossing_threshold_list = [.3]
-      stop_loss_list = [1.0, 2.0, 2.5, 3.0]
-      rsi_list = [8, 12, 24, 36]
-      purge_list = [10, 15, 25, 35]
+      crossing_threshold_list = [0.2, .3]
+      stop_loss_list = [2.0, 2.5, 3.0]
+      rsi_list = [8, 12, 30]
+      purge_list = [10, 15, 25]
       sell_rsi_list = [8, 12, 24]
-      sell_crossing_list = [0.1, 0.2]
+      sell_crossing_list = [-0.1, 0.1, 0.3]
 
    for average_window in average_window_list:
       for crossing_window in crossing_window_list:
@@ -69,13 +69,16 @@ def simSingle():
 
 
 def simSP500():
-   test_trader_list = build_trader_list("fast")
+   test_trader_list = build_trader_list("short")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   #ticker_file = "S&P500-Symbols.csv"
-   ticker_file = "short_list.csv"
+   ticker_file = "S&P500-Symbols.csv"
+   #ticker_file = "short_list.csv"
 
-   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5)
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="short-sp500.txt")
+
+   test_trader_list = build_trader_list("long")
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="long-sp500.txt")
 
 if __name__ == "__main__":
    simSP500()
