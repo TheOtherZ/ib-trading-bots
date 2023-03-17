@@ -6,14 +6,14 @@ from CrossingBot import CrossingBot
 from ibapi.contract import Contract
 import TraderCore.IBInterface as ibapi
 
-def startBot(connection_info, bot, api):
+def startBot(connection_info, bot, symbol):
    contract = Contract()
-   contract.symbol = api.contract.symbol
+   contract.symbol = symbol
    contract.secType = "STK"
    contract.exchange = "SMART"
    contract.primaryExchange = "NYSE"
    contract.currency = "USD"
-   api.contract = contract
+   api = ibapi.IBInterface(bot, contract)
 
    bot.trading_enabled = False
 
@@ -39,22 +39,21 @@ def startBot(connection_info, bot, api):
    while (api.history_started):
       time.sleep(1)
 
+   return api
+
 def multiProduction():
    ip = "127.0.0.1"
    connection = 1
    # WBD ##########
    connectionWBD = ibapi.ConnectionInfo(ip, 7497, connection)
    wbdBot = CrossingBot(60, 100, 0.3, 2.0, 36, 25, 24, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
-   wbdAPI = ibapi.IBInterface(wbdBot, Contract(symbol="WBD"))
-   startBot(connectionWBD, wbdBot, wbdAPI)
-   time.sleep(10)
+   wbdAPI = startBot(connectionWBD, wbdBot, "WBD")
 
    # META ##########
    connection += 1
    connectionMETA = ibapi.ConnectionInfo(ip, 7497, connection)
    metaBot = CrossingBot(40, 60, 0.3, 2.0, 8, 15, 12, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
-   metaAPI = ibapi.IBInterface(metaBot, Contract(symbol="META"))
-   startBot(connectionMETA, metaBot, metaAPI)
+   metaAPI= startBot(connectionMETA, metaBot, "META")
 
    # AMD ##########
    # connection += 1
@@ -67,19 +66,17 @@ def multiProduction():
    connection += 1
    connectionEPAM = ibapi.ConnectionInfo(ip, 7497, connection)
    epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
-   epamAPI = ibapi.IBInterface(epamBot, Contract(symbol="EPAM"))
-   startBot(connectionEPAM, epamBot, epamAPI)
+   epamAPI = startBot(connectionEPAM, epamBot, "EPAM")
 
    # MRNA ##########
    connection += 1
    connectionMRNA = ibapi.ConnectionInfo(ip, 7497, connection)
    mrnaBot = CrossingBot(9, 8, 0.1, 1.0, 4, 10, 8, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
-   mrnaAPI = ibapi.IBInterface(mrnaBot, Contract(symbol="MRNA"))
-   startBot(connectionMRNA, mrnaBot, mrnaAPI)
+   mrnaAPI = startBot(connectionMRNA, mrnaBot, "MRNA")
 
    # Handle multi-day?
    while True:
-      in_val = input("Enter q to quit")
+      in_val = input("Enter q to quit:\n")
       if str(in_val) == 'q':
          print("Manual disconnect")
          wbdAPI.disconnect()
