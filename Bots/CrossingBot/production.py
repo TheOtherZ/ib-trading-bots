@@ -41,7 +41,7 @@ def startBot(connection_info, bot, api):
 
 def multiProduction():
    ip = "127.0.0.1"
-   connection = 0
+   connection = 1
    # WBD ##########
    connectionWBD = ibapi.ConnectionInfo(ip, 7497, connection)
    wbdBot = CrossingBot(60, 100, 0.3, 2.0, 36, 25, 24, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
