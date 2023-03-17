@@ -12,6 +12,7 @@ def build_trader_list(frame="short"):
       purge_list = [5, 10, 15]
       sell_rsi_list = [8, 12]
       sell_crossing_list = [-0.1, 0.1, 0.3]
+      strange_list = [False]
    elif frame == "fast":
       average_window_list = [9, 12]
       crossing_window_list = [5, 8]
@@ -21,6 +22,7 @@ def build_trader_list(frame="short"):
       purge_list = [10, 15]
       sell_rsi_list = [8]
       sell_crossing_list = [-0.1, 0.1, 0.4, 0.7]
+      strange_list = [False]
    elif frame == "mixed":
       average_window_list = [9, 12, 20, 40, 60, 80]
       crossing_window_list = [5, 8, 10]
@@ -30,6 +32,7 @@ def build_trader_list(frame="short"):
       purge_list = [5, 10, 15]
       sell_rsi_list = [8, 12]
       sell_crossing_list = [-0.1, 0.1, 0.2]
+      strange_list = [False]
    elif frame == "long":
       average_window_list = [40, 60, 80]
       crossing_window_list = [40, 60, 80, 100]
@@ -39,6 +42,7 @@ def build_trader_list(frame="short"):
       purge_list = [10, 15, 25]
       sell_rsi_list = [8, 12, 24]
       sell_crossing_list = [-0.1, 0.1, 0.3]
+      strange_list = [False]
 
    for average_window in average_window_list:
       for crossing_window in crossing_window_list:
@@ -48,10 +52,11 @@ def build_trader_list(frame="short"):
                   for purge in purge_list:
                      for sell_rsi in sell_rsi_list:
                         for sell_crossing in sell_crossing_list:
-                            if rsi <= average_window + crossing_window and sell_rsi <= average_window + crossing_window:
-                                bot = CrossingBot(average_window, crossing_window, crossing_threshold, stop_loss, rsi, purge, sell_rsi, sell_crossing)
-                                bot.trading_enabled = True
-                                trader_list.append(bot)
+                            for strange in strange_list:
+                              if rsi <= average_window + crossing_window and sell_rsi <= average_window + crossing_window:
+                                 bot = CrossingBot(average_window, crossing_window, crossing_threshold, stop_loss, rsi, purge, sell_rsi, sell_crossing, strange)
+                                 bot.trading_enabled = True
+                                 trader_list.append(bot)
 
    return trader_list
 
@@ -67,13 +72,20 @@ def simSingle():
       trader = CrossingBot(40, 60, 0.3, 1.0, 8, 15, 12, crossing, simulation=True)
       simulate_single_trader(trader, "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\Tickers\\META\\META_2023-02-28_10 mins.csv")
 
+def simMRNA():
+   trader = CrossingBot(12, 10, 0.2, 2.0, 4, 15, 8, -0.1,strange_mode=False, simulation=True)
+   simulate_single_trader(trader, "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\Tickers\\MRNA\\MRNA_2023-02-28_10 mins.csv")
+   trader = CrossingBot(12, 10, 0.2, 2.0, 4, 15, 8, -0.1,strange_mode=True, simulation=True)
+   simulate_single_trader(trader, "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\Tickers\\MRNA\\MRNA_2023-02-28_10 mins.csv")
+   #('MRNA', 55506.56721357904, -6.151908992, 349, 1975.2427864209997, '12, 10, 0.2, 2.0, 4, 15, 8, -0.1')
+
 
 def simSP500():
    test_trader_list = build_trader_list("short")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   ticker_file = "S&P500-Symbols.csv"
-   #ticker_file = "short_list.csv"
+   #ticker_file = "S&P500-Symbols.csv"
+   ticker_file = "short_list.csv"
 
    simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="short-sp500.txt")
 
@@ -81,5 +93,6 @@ def simSP500():
    simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="long-sp500.txt")
 
 if __name__ == "__main__":
-   simSP500()
+   #simSP500()
    #simSingle()
+   simMRNA()

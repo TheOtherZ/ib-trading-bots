@@ -58,7 +58,7 @@ def simulate_single_trader(trader: TraderBase, bar_data_file):
    trader.print_stats()
    print(trader)
 
-def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5, sav_file=None):
+def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5, sav_file=None, print_len=25):
    start_time = time.time()
    num_trader_sort = min(len(traders), top_traders)
 
@@ -97,8 +97,12 @@ def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name,
 
    if sav_file is not None:
       with open(sav_file, 'w') as f:
-         for result in results[:25]:
-            f.write(str(result) +"\n")
+         if print_len is not None:
+            for result in results[:print_len]:
+               f.write(str(result) +"\n")
+         else:
+            for result in results:
+               f.write(str(result) +"\n")
 
 def simulate_single_bar_file(traders, bar_file_name, threads):
    start_time = time.time()

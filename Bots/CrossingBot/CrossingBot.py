@@ -7,7 +7,8 @@ from TraderCore.TraderBase import TraderBase
 import TraderCore.Indicators as ind
 
 class CrossingBot(TraderBase):
-   def __init__(self, average_window, crossing_window, crossing_threshold, stop_loss, rsi_window, purge_bars=0, sell_rsi_window=8, sell_crossing_threshold=-1.0, capital: float=15000.0, reinvestment: bool=False, log_file_name: str = "", name: str = "", log_level=logging.WARN, save_dir: str="Save/", simulation=True) -> None:
+   def __init__(self, average_window, crossing_window, crossing_threshold, stop_loss, rsi_window, purge_bars=0, sell_rsi_window=8, sell_crossing_threshold=-1.0, 
+                strange_mode=True, capital: float=15000.0, reinvestment: bool=False, log_file_name: str = "", name: str = "", log_level=logging.WARN, save_dir: str="Save/", simulation=True) -> None:
       super().__init__(log_level=log_level, log_file_name=log_file_name, name=name, save_dir=save_dir, simulation=simulation)
 
       self.moving_average = ind.MovingAverage(average_window)
@@ -16,6 +17,7 @@ class CrossingBot(TraderBase):
       self.sell_rsi = ind.RSIOscillator(sell_rsi_window)
       self.crossing_threshold = crossing_threshold
       self.sell_crossing_threshold = sell_crossing_threshold
+      self.strange_mode = strange_mode
       self.stop_loss_percent = stop_loss
       self.purge_bars = purge_bars
       self.purge_count = 0
@@ -86,15 +88,15 @@ class CrossingBot(TraderBase):
       close_long = self.price_crossing.value >= self.sell_crossing_threshold and self.sell_rsi.value >= 80
       close_short = self.price_crossing.value <= -self.sell_crossing_threshold and self.sell_rsi.value <= 20
 
-      # if self.holding == 'long' and not open_long and not open_short and close_long:
-      #    self.close_position(bar.close, self.num_held)
-      # elif self.holding == 'short' and not open_long and not open_short and close_short:
-      #    self.close_position(bar.close, self.num_held)
+      if self.holding == 'long' and (not open_long or self.strange_mode) and (not open_short or self.strange_mode) and close_long:
+         self.close_position(bar.close, self.num_held)
+      elif self.holding == 'short' and (not open_long or self.strange_mode) and (not open_short or self.strange_mode) and close_short:
+         self.close_position(bar.close, self.num_held)
 
-      if self.holding == 'long' and close_long:
-         self.close_position(bar.close, self.num_held)
-      elif self.holding == 'short' and close_short:
-         self.close_position(bar.close, self.num_held)
+      # if self.holding == 'long' and close_long:
+      #    self.close_position(bar.close, self.num_held)
+      # elif self.holding == 'short' and close_short:
+      #    self.close_position(bar.close, self.num_held)
 
       # stop loss
       if self.holding == "long" and bar.close < (self.average_price * (100 - self.stop_loss_percent) / 100.0):
@@ -120,7 +122,7 @@ class CrossingBot(TraderBase):
       return super().process(bar)
    
    def get_parameters(self):
-      return (self.moving_average.window_size, len(self.price_crossing.crossing_list), self.crossing_threshold, self.stop_loss_percent, self.rsi.period, self.purge_bars, self.sell_rsi.period, self.sell_crossing_threshold)
+      return (self.moving_average.window_size, len(self.price_crossing.crossing_list), self.crossing_threshold, self.stop_loss_percent, self.rsi.period, self.purge_bars, self.sell_rsi.period, self.sell_crossing_threshold, self.strange_mode)
 
    def __str__(self):
-      return f"{self.moving_average.window_size}, {len(self.price_crossing.crossing_list)}, {self.crossing_threshold}, {self.stop_loss_percent}, {self.rsi.period}, {self.purge_bars}, {self.sell_rsi.period}, {self.sell_crossing_threshold}"
+      return f"{self.moving_average.window_size}, {len(self.price_crossing.crossing_list)}, {self.crossing_threshold}, {self.stop_loss_percent}, {self.rsi.period}, {self.purge_bars}, {self.sell_rsi.period}, {self.sell_crossing_threshold}, {self.strange_mode}"
