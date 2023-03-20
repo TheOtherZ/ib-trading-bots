@@ -6,7 +6,7 @@ from ibapi.wrapper import BarData
 from ibapi.utils import decimalMaxString, floatMaxString
 
 from TraderCore.TraderBase import TraderBase
-from TraderCore.ConnectionInfo import ConnectionInfo
+from TraderCore.CapitolManager import CapitolManager
 
 import pandas_market_calendars as mcal
 import pandas as pd
@@ -138,24 +138,36 @@ class IBInterface(EClient, EWrapper):
    #################### Processing
 
    def processBar(self, bar: BarData):
-      # print(f"{self.contract.symbol}: Processing bar")
       open_or_close, order_type, num_pending = self.bot.process(bar)
       if (open_or_close == "open" and order_type == "long") or (open_or_close == "close" and order_type == "short"):
          self.order.action = "BUY"
-         self.order.totalQuantity = num_pending
-         info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
-         print(info_str)
-         logging.info(info_str)
-         self.placeOrder(self.next_order_id, self.contract, self.order)
-         self.reqIds(-1)
+         available_capitol = CapitolManager.take_capitol(self.bot.capital)
+         if available_capitol > 0:
+            self.order.totalQuantity = TraderBase.compute_share_quantity(bar.close, available_capitol)
+            info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
+            print(info_str)
+            logging.info(info_str)
+            self.placeOrder(self.next_order_id, self.contract, self.order)
+            self.reqIds(-1)
+         else:
+            info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
+            print(info_str)
+            logging.info(info_str)
+
       elif (open_or_close == "open" and order_type == "short") or (open_or_close == "close" and order_type == "long"):
          self.order.action = "SELL"
-         self.order.totalQuantity = num_pending
-         info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
-         print(info_str)
-         logging.info(info_str)
-         self.placeOrder(self.next_order_id, self.contract, self.order)
-         self.reqIds(-1)
+         available_capitol = CapitolManager.take_capitol(self.bot.capital)
+         if available_capitol > 0:
+            self.order.totalQuantity = TraderBase.compute_share_quantity(bar.close, available_capitol)
+            info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
+            print(info_str)
+            logging.info(info_str)
+            self.placeOrder(self.next_order_id, self.contract, self.order)
+            self.reqIds(-1)
+         else:
+            info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
+            print(info_str)
+            logging.info(info_str)
 
    ###################### Running
 
@@ -190,6 +202,7 @@ class IBInterface(EClient, EWrapper):
          elif self.bot.open_or_close == "close":
             print(f"{self.contract.symbol}: Confirm close")
             self.bot.confirm_close(float(avgFullPrice), float(filled))
+            CapitolManager.add_capitol(float(avgFullPrice) * float(filled))
 
    def position(self, account: str, contract: Contract, position, avgCost: float):
              super().position(account, contract, position, avgCost)

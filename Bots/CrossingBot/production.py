@@ -1,88 +1,21 @@
 import logging
+import math
+import time
+
 from CrossingBot import CrossingBot
+from ibapi.contract import Contract
+from TraderCore.CapitolManager import CapitolManager
+from TraderCore.ConnectionInfo import ConnectionInfo
 import TraderCore.IBInterface as ibapi
 
-from ib_insync import *
-
-import time
-import math
-   
-def altProduction():
-   bot = CrossingBot(24, 10, 0.1, 2.0, 8, log_file_name="CrossingProduction.txt", name="ProdCrossingBot", log_level=logging.INFO)
-   bot.simulation = False
-
-   ib = IB()
-   ib.connect("192.168.50.243", 7497, 14)
-
-   # Get historic data
-   contract = Stock('INTC', 'SMART', 'USD')
-   # 10 minute bars
-   history_seconds = bot.data_length * 10 * 60
-
-
-   def onBarUpdate(bars, hasNewBar):
-      print(bars[-1].close)
-      onBarUpdate.bar_count += 1
-      if hasNewBar:
-         print(f'Bar Count: {onBarUpdate.bar_count}')
-         onBarUpdate.bar_count = 0
-   onBarUpdate.bar_count = 0
-
-   bars = ib.reqHistoricalData(
-        contract,
-        endDateTime='',
-        durationStr=f'{history_seconds} S',
-        barSizeSetting='1 min',
-        whatToShow='TRADES',
-        useRTH=True,
-        formatDate=1,
-        keepUpToDate=True)
-   
-   bars.updateEvent += onBarUpdate
-   
-   for bar in bars:
-      bar.wap = bar.average
-      print(bar)
-
-   print("History End")
-
-   ib.sleep(60 * 5)
-   ib.cancelHistoricalData(bars)
-   ib.disconnect()
-
-def production():
-   bot = CrossingBot(24, 10, 0.1, 2.0, 8, log_file_name="CrossingProduction.txt", name="ProdCrossingBot", log_level=logging.INFO, simulation=False)
-   #TODO
-   # bot.num_held = 527
-   # bot.holding = "short"
-   # bot.average_price = 28.44
-   # #Wait till market open:
-   # print("Waiting")
-   # time.sleep(60 * 37)
-   # print("Starting")
-
-   ib_api = ibapi.IBapi(bot, "INTC")
-
-   connection = ibapi.ConnectionInfo("192.168.50.243", 7497, 1)
-
-   ib_api.connect(*connection.get_info())   
-   ib_api.start_loop()
-   if not ib_api.blockForConnection(5):
-      return
-   
-   # 10 minute bars
-   history_seconds = bot.data_length * 10 * 60
-   
-   ib_api.reqHistoricalData(ib_api.next_order_id, ib_api.contract, '',  f'{history_seconds} S', '10 mins', "TRADES", 1, 1, True, [])
-
-def startBot(connection_info, bot, api):
+def startBot(connection_info, bot, symbol):
    contract = Contract()
-   contract.symbol = api.contract.symbol
+   contract.symbol = symbol
    contract.secType = "STK"
    contract.exchange = "SMART"
    contract.primaryExchange = "NYSE"
    contract.currency = "USD"
-   api.contract = contract
+   api = ibapi.IBInterface(bot, contract)
 
    bot.trading_enabled = False
 
@@ -90,13 +23,11 @@ def startBot(connection_info, bot, api):
    api.start_loop()
    if not api.blockForConnection(5):
       return
-   time.sleep(3)
 
    api.reqPositions()
    while (api.position_started):
       time.sleep(1)
 
-   
    # 10 minute bars
    history_seconds = bot.data_length * 10 * 60
    if history_seconds >= 86400:
@@ -110,65 +41,58 @@ def startBot(connection_info, bot, api):
    while (api.history_started):
       time.sleep(1)
 
+   return api
 
 def multiProduction():
-   #ip = "192.168.50.243"
+   CapitolManager.initialize(65000)
    ip = "127.0.0.1"
+   connection = 1
    # WBD ##########
-   connectionWBD = ibapi.ConnectionInfo(ip, 7497, 1)
+   connectionWBD = ConnectionInfo(ip, 7497, connection)
    wbdBot = CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
-   wbdAPI = ibapi.IBInterface(wbdBot, Contract(symbol="WBD"))
-   startBot(connectionWBD, wbdBot, wbdAPI)
-   time.sleep(10)
+   wbdAPI = startBot(connectionWBD, wbdBot, "WBD")
 
    # META ##########
-   connectionMETA = ibapi.ConnectionInfo(ip, 7497, 2)
+   connection += 1
+   connectionMETA = ConnectionInfo(ip, 7497, connection)
    metaBot = CrossingBot(60, 80, 0.3, 3.0, 8, 15, 12, -0.1, False, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
-   metaAPI = ibapi.IBInterface(metaBot, Contract(symbol="META"))
-   startBot(connectionMETA, metaBot, metaAPI)
+   metaAPI= startBot(connectionMETA, metaBot, "META")
 
-   # AMD ##########
-   connectionCCL = ibapi.ConnectionInfo(ip, 7497, 3)
-   cclBot = CrossingBot(80, 40, 0.3, 2.5, 8, 25, 12, log_file_name="CrossingProduction.txt", name="ProdCCLBot", log_level=logging.INFO, simulation=False)
-   cclAPI = ibapi.IBInterface(cclBot, Contract(symbol="CCL"))
-   startBot(connectionCCL, cclBot, cclAPI)
+   # CCL ##########
+   connection += 1
+   connectionCCL = ConnectionInfo(ip, 7497, 3)
+   cclBot = CrossingBot(40, 100, 0.3, 2.5, 8, 10, 8, 0.3, False, log_file_name="CrossingProduction.txt", name="ProdCCLBot", log_level=logging.INFO, simulation=False)
+   cclAPI = startBot(connectionCCL, cclBot, "CCL")
 
    # EPAM ##########
-   connectionEPAM = ibapi.ConnectionInfo(ip, 7497, 3)
+   connection += 1
+   connectionEPAM = ConnectionInfo(ip, 7497, connection)
    epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, -1, True, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
-   epamAPI = ibapi.IBInterface(epamBot, Contract(symbol="EPAM"))
-   startBot(connectionEPAM, epamBot, epamAPI)
+   epamAPI = startBot(connectionEPAM, epamBot, "EPAM")
 
    # MRNA ##########
-   connectionMRNA = ibapi.ConnectionInfo(ip, 7497, 4)
+   connection += 1
+   connectionMRNA = ConnectionInfo(ip, 7497, connection)
    mrnaBot = CrossingBot(12, 10, 0.2, 2.0, 4, 15, 8, -0.1, False, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
-   mrnaAPI = ibapi.IBInterface(mrnaBot, Contract(symbol="MRNA"))
-   startBot(connectionMRNA, mrnaBot, mrnaAPI)
+   mrnaAPI = startBot(connectionMRNA, mrnaBot, "MRNA")
 
-   # Script usually started pre-market
-   print("Waiting for market open")
-   while not mrnaAPI.marketOpen():
-      time.sleep(5)
-   print("Market open")
+   # F ##########
+   connection += 1
+   connectionF = ConnectionInfo(ip, 7497, connection)
+   fBot = CrossingBot(9, 5, 0.1, 2.5, 12, 10, 12, -1, True, log_file_name="CrossingProduction.txt", name="ProdFBot", log_level=logging.INFO, simulation=False)
+   fAPI = startBot(connectionF, fBot, "F")
 
    # Handle multi-day?
    while True:
-      in_val = input()
-      time.sleep(10)
+      in_val = input("Enter q to quit:\n")
       if str(in_val) == 'q':
          print("Manual disconnect")
          wbdAPI.disconnect()
+         cclAPI.disconnect()
          epamAPI.disconnect()
          metaAPI.disconnect()
          mrnaAPI.disconnect()
-         break
-      elif not mrnaAPI.marketOpen():
-         print("Market closed")
-         time.sleep(30) # give time for stuff to close out
-         wbdAPI.disconnect()
-         epamAPI.disconnect()
-         metaAPI.disconnect()
-         mrnaAPI.disconnect()
+         fAPI.disconnect()
          break
 
 if __name__ == "__main__":

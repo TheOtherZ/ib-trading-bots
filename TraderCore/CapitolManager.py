@@ -1,27 +1,58 @@
+import json
+import os
+from pathlib import Path
 import threading
 import time
 import random
 
 class CapitolManager():
+   _save_file = "Save/capitol.json"
    _instance = None
    _lock = threading.Lock()
-   _capitol = 0.0
+
+   @classmethod
+   def initialize(cls, starting_cap):
+      with cls._lock:
+         if not os.path.exists("Save/"):
+            os.makedirs("Save/")
+         path = Path(cls._save_file)
+         if not path.is_file():
+            with open(cls._save_file, 'w') as sv:
+               sv.write('{"capitol": ' + str(starting_cap) + '}')
 
    @classmethod
    def add_capitol(cls, cap):
       with cls._lock:
-         cls._capitol += cap
+         save = open(cls._save_file, "r")
+         data = json.load(save)
+         save.close()
+         capitol = cap
+         capitol += float(data["capitol"])
+         data["capitol"] = round(capitol, 2)
+
+         save = open(cls._save_file, "w")
+         json.dump(data, save)
+         save.close()
 
    @classmethod
    def take_capitol(cls, cap):
       available_cap = 0
       with cls._lock:
-         if cls._capitol > cap:
-            cls._capitol -= cap
+         save = open(cls._save_file, "r")
+         data = json.load(save)
+         save.close()
+         capitol = float(data["capitol"])
+         if capitol > cap:
+            capitol -= cap
             available_cap = cap
-         elif cls._capitol > 0:
-            available_cap = cls._capitol
-            cls._capitol = 0
+         elif capitol > 0:
+            available_cap = capitol
+            capitol = 0.0
+         data["capitol"] = round(capitol, 2)
+
+         save = open(cls._save_file, "w")
+         json.dump(data, save)
+         save.close()
       
       return available_cap
       
@@ -47,7 +78,7 @@ def capital_user():
    
 if __name__ == "__main__":
    #Test the capitol singlton
-   CapitolManager.add_capitol(60000.0)
+   CapitolManager.initialize(60000)
    thread_list = []
    for _ in range(60):
       thread_list.append(threading.Thread(target=capital_user))
@@ -57,5 +88,3 @@ if __name__ == "__main__":
 
    for thread in thread_list:
       thread.join()
-
-   print(CapitolManager._capitol)
