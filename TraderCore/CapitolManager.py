@@ -57,7 +57,7 @@ class CapitolManager():
       return available_cap
    
    @classmethod
-   def get_available_capitol(cls, cap):
+   def get_available_capitol(cls):
       with cls._lock:
          save = open(cls._save_file, "r")
          data = json.load(save)
