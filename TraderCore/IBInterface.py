@@ -139,11 +139,11 @@ class IBInterface(EClient, EWrapper):
 
    def processBar(self, bar: BarData):
       open_or_close, order_type, num_pending = self.bot.process(bar)
-      if (open_or_close == "open" and order_type == "long") or (open_or_close == "close" and order_type == "short"):
+      if open_or_close == "open" and order_type == "long":
          self.order.action = "BUY"
-         available_capitol = CapitolManager.take_capitol(self.bot.capital)
-         if available_capitol > 0:
-            self.order.totalQuantity = TraderBase.compute_share_quantity(bar.close, available_capitol)
+         if CapitolManager.get_available_capitol() >= self.bot.capitol:
+            CapitolManager.take_capitol(self.bot.capitol)
+            self.order.totalQuantity = num_pending
             info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
             print(info_str)
             logging.info(info_str)
@@ -153,12 +153,20 @@ class IBInterface(EClient, EWrapper):
             info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
             print(info_str)
             logging.info(info_str)
-
-      elif (open_or_close == "open" and order_type == "short") or (open_or_close == "close" and order_type == "long"):
+      elif open_or_close == "close" and order_type == "short":
+         self.order.action = "BUY"
+         self.order.totalQuantity = num_pending
+         CapitolManager.add_capitol(self.bot.capitol)
+         info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
+         print(info_str)
+         logging.info(info_str)
+         self.placeOrder(self.next_order_id, self.contract, self.order)
+         self.reqIds(-1)
+      elif open_or_close == "open" and order_type == "short":
          self.order.action = "SELL"
-         available_capitol = CapitolManager.take_capitol(self.bot.capital)
-         if available_capitol > 0:
-            self.order.totalQuantity = TraderBase.compute_share_quantity(bar.close, available_capitol)
+         if CapitolManager.get_available_capitol() >= self.bot.capitol:
+            CapitolManager.take_capitol(self.bot.capitol)
+            self.order.totalQuantity = num_pending
             info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
             print(info_str)
             logging.info(info_str)
@@ -168,6 +176,15 @@ class IBInterface(EClient, EWrapper):
             info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
             print(info_str)
             logging.info(info_str)
+      elif open_or_close == "close" and order_type == "long":
+         self.order.action = "SELL"
+         self.order.totalQuantity = num_pending
+         CapitolManager.add_capitol(self.bot.capitol)
+         info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
+         print(info_str)
+         logging.info(info_str)
+         self.placeOrder(self.next_order_id, self.contract, self.order)
+         self.reqIds(-1)
 
    ###################### Running
 
@@ -202,7 +219,6 @@ class IBInterface(EClient, EWrapper):
          elif self.bot.open_or_close == "close":
             print(f"{self.contract.symbol}: Confirm close")
             self.bot.confirm_close(float(avgFullPrice), float(filled))
-            CapitolManager.add_capitol(float(avgFullPrice) * float(filled))
 
    def position(self, account: str, contract: Contract, position, avgCost: float):
              super().position(account, contract, position, avgCost)
