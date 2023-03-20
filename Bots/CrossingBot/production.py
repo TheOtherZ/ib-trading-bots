@@ -116,32 +116,32 @@ def multiProduction():
    ip = "127.0.0.1"
    # WBD ##########
    connectionWBD = ibapi.ConnectionInfo(ip, 7497, 1)
-   wbdBot = CrossingBot(60, 100, 0.3, 1.0, 36, 25, 8, 0.2, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
+   wbdBot = CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
    wbdAPI = ibapi.IBInterface(wbdBot, Contract(symbol="WBD"))
    startBot(connectionWBD, wbdBot, wbdAPI)
    time.sleep(10)
 
    # META ##########
    connectionMETA = ibapi.ConnectionInfo(ip, 7497, 2)
-   metaBot = CrossingBot(40, 100, 0.3, 3.0, 8, 35, 12, 0.1, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
+   metaBot = CrossingBot(60, 80, 0.3, 3.0, 8, 15, 12, -0.1, False, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
    metaAPI = ibapi.IBInterface(metaBot, Contract(symbol="META"))
    startBot(connectionMETA, metaBot, metaAPI)
 
    # AMD ##########
-   # connectionAMD = ibapi.ConnectionInfo(ip, 7497, 3)
-   # amdBot = CrossingBot(80, 40, 0.3, 2.5, 8, 25, 12, log_file_name="CrossingProduction.txt", name="ProdAMDBot", log_level=logging.INFO, simulation=False)
-   # amdAPI = ibapi.IBInterface(amdBot, Contract(symbol="AMD"))
-   # startBot(connectionAMD, amdBot, amdAPI)
+   connectionCCL = ibapi.ConnectionInfo(ip, 7497, 3)
+   cclBot = CrossingBot(80, 40, 0.3, 2.5, 8, 25, 12, log_file_name="CrossingProduction.txt", name="ProdCCLBot", log_level=logging.INFO, simulation=False)
+   cclAPI = ibapi.IBInterface(cclBot, Contract(symbol="CCL"))
+   startBot(connectionCCL, cclBot, cclAPI)
 
    # EPAM ##########
    connectionEPAM = ibapi.ConnectionInfo(ip, 7497, 3)
-   epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
+   epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, -1, True, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
    epamAPI = ibapi.IBInterface(epamBot, Contract(symbol="EPAM"))
    startBot(connectionEPAM, epamBot, epamAPI)
 
    # MRNA ##########
    connectionMRNA = ibapi.ConnectionInfo(ip, 7497, 4)
-   mrnaBot = CrossingBot(9, 8, 0.1, 1.0, 4, 10, 8, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
+   mrnaBot = CrossingBot(12, 10, 0.2, 2.0, 4, 15, 8, -0.1, False, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
    mrnaAPI = ibapi.IBInterface(mrnaBot, Contract(symbol="MRNA"))
    startBot(connectionMRNA, mrnaBot, mrnaAPI)
 

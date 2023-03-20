@@ -49,14 +49,15 @@ def process_dual_source(traders: list[TraderBase], return_vals, start_idx, flat_
       return_vals[x] = bot
       x += 1
 
-def simulate_single_trader(trader: TraderBase, bar_data_file):
+def simulate_single_trader(trader: TraderBase, bar_data_file, print_stats=True):
    trader.trading_enabled = True
    bars = convert_bar_file(bar_data_file)[0]
    for bar in bars:
       trader.process(bar)
 
-   trader.print_stats()
-   print(trader)
+   if print_stats:
+      trader.print_stats()
+      print(trader)
 
 def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5, sav_file=None, print_len=25):
    start_time = time.time()
