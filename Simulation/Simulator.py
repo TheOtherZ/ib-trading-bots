@@ -49,16 +49,17 @@ def process_dual_source(traders: list[TraderBase], return_vals, start_idx, flat_
       return_vals[x] = bot
       x += 1
 
-def simulate_single_trader(trader: TraderBase, bar_data_file):
+def simulate_single_trader(trader: TraderBase, bar_data_file, print_stats=True):
    trader.trading_enabled = True
    bars = convert_bar_file(bar_data_file)[0]
    for bar in bars:
       trader.process(bar)
 
-   trader.print_stats()
-   print(trader)
+   if print_stats:
+      trader.print_stats()
+      print(trader)
 
-def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5):
+def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5, sav_file=None, print_len=25):
    start_time = time.time()
    num_trader_sort = min(len(traders), top_traders)
 
@@ -94,6 +95,15 @@ def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name,
    print("Completed in %s" % (time.time() - start_time))
    for result in results[:25]:
       print(result)
+
+   if sav_file is not None:
+      with open(sav_file, 'w') as f:
+         if print_len is not None:
+            for result in results[:print_len]:
+               f.write(str(result) +"\n")
+         else:
+            for result in results:
+               f.write(str(result) +"\n")
 
 def simulate_single_bar_file(traders, bar_file_name, threads):
    start_time = time.time()

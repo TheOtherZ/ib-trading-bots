@@ -49,33 +49,38 @@ def multiProduction():
    connection = 1
    # WBD ##########
    connectionWBD = ConnectionInfo(ip, 7497, connection)
-   wbdBot = CrossingBot(60, 100, 0.3, 2.0, 36, 25, 24, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
+   wbdBot = CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
    wbdAPI = startBot(connectionWBD, wbdBot, "WBD")
 
    # META ##########
    connection += 1
    connectionMETA = ConnectionInfo(ip, 7497, connection)
-   metaBot = CrossingBot(40, 60, 0.3, 2.0, 8, 15, 12, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
+   metaBot = CrossingBot(60, 80, 0.3, 3.0, 8, 15, 12, -0.1, False, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
    metaAPI= startBot(connectionMETA, metaBot, "META")
 
-   # AMD ##########
-   # connection += 1
-   # connectionAMD = ConnectionInfo(ip, 7497, connection)
-   # amdBot = CrossingBot(80, 40, 0.3, 2.5, 8, 25, 12, log_file_name="CrossingProduction.txt", name="ProdAMDBot", log_level=logging.INFO, simulation=False)
-   # amdAPI = ibapi.IBInterface(amdBot, Contract(symbol="AMD"))
-   # startBot(connectionAMD, amdBot, amdAPI)
+   # CCL ##########
+   connection += 1
+   connectionCCL = ConnectionInfo(ip, 7497, 3)
+   cclBot = CrossingBot(40, 100, 0.3, 2.5, 8, 10, 8, 0.3, False, log_file_name="CrossingProduction.txt", name="ProdCCLBot", log_level=logging.INFO, simulation=False)
+   cclAPI = startBot(connectionCCL, cclBot, "CCL")
 
    # EPAM ##########
    connection += 1
    connectionEPAM = ConnectionInfo(ip, 7497, connection)
-   epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
+   epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, -1, True, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
    epamAPI = startBot(connectionEPAM, epamBot, "EPAM")
 
    # MRNA ##########
    connection += 1
    connectionMRNA = ConnectionInfo(ip, 7497, connection)
-   mrnaBot = CrossingBot(9, 8, 0.1, 1.0, 4, 10, 8, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
+   mrnaBot = CrossingBot(12, 10, 0.2, 2.0, 4, 15, 8, -0.1, False, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
    mrnaAPI = startBot(connectionMRNA, mrnaBot, "MRNA")
+
+   # F ##########
+   connection += 1
+   connectionF = ConnectionInfo(ip, 7497, connection)
+   fBot = CrossingBot(9, 5, 0.1, 2.5, 12, 10, 12, -1, True, log_file_name="CrossingProduction.txt", name="ProdFBot", log_level=logging.INFO, simulation=False)
+   fAPI = startBot(connectionF, fBot, "F")
 
    # Handle multi-day?
    while True:
@@ -83,9 +88,11 @@ def multiProduction():
       if str(in_val) == 'q':
          print("Manual disconnect")
          wbdAPI.disconnect()
+         cclAPI.disconnect()
          epamAPI.disconnect()
          metaAPI.disconnect()
          mrnaAPI.disconnect()
+         fAPI.disconnect()
          break
 
 if __name__ == "__main__":
