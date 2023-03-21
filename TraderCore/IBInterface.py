@@ -6,7 +6,7 @@ from ibapi.wrapper import BarData
 from ibapi.utils import decimalMaxString, floatMaxString
 
 from TraderCore.TraderBase import TraderBase
-from TraderCore.CapitolManager import CapitolManager
+from TraderCore.CapitalManager import CapitalManager
 
 import pandas_market_calendars as mcal
 import pandas as pd
@@ -141,8 +141,8 @@ class IBInterface(EClient, EWrapper):
       open_or_close, order_type, num_pending = self.bot.process(bar)
       if open_or_close == "open" and order_type == "long":
          self.order.action = "BUY"
-         if CapitolManager.get_available_capitol() >= self.bot.capitol:
-            CapitolManager.take_capitol(self.bot.capitol)
+         if CapitalManager.get_available_capitol() >= self.bot.capital:
+            CapitalManager.take_capitol(self.bot.capital)
             self.order.totalQuantity = num_pending
             info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
             print(info_str)
@@ -156,7 +156,7 @@ class IBInterface(EClient, EWrapper):
       elif open_or_close == "close" and order_type == "short":
          self.order.action = "BUY"
          self.order.totalQuantity = num_pending
-         CapitolManager.add_capitol(self.bot.capitol)
+         CapitalManager.add_capitol(self.bot.capital)
          info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
          print(info_str)
          logging.info(info_str)
@@ -164,8 +164,8 @@ class IBInterface(EClient, EWrapper):
          self.reqIds(-1)
       elif open_or_close == "open" and order_type == "short":
          self.order.action = "SELL"
-         if CapitolManager.get_available_capitol() >= self.bot.capitol:
-            CapitolManager.take_capitol(self.bot.capitol)
+         if CapitalManager.get_available_capitol() >= self.bot.capital:
+            CapitalManager.take_capitol(self.bot.capital)
             self.order.totalQuantity = num_pending
             info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
             print(info_str)
@@ -179,7 +179,7 @@ class IBInterface(EClient, EWrapper):
       elif open_or_close == "close" and order_type == "long":
          self.order.action = "SELL"
          self.order.totalQuantity = num_pending
-         CapitolManager.add_capitol(self.bot.capitol)
+         CapitalManager.add_capitol(self.bot.capital)
          info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
          print(info_str)
          logging.info(info_str)

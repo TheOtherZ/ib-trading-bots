@@ -4,7 +4,7 @@ import time
 
 from CrossingBot import CrossingBot
 from ibapi.contract import Contract
-from TraderCore.CapitolManager import CapitolManager
+from TraderCore.CapitalManager import CapitalManager
 from TraderCore.ConnectionInfo import ConnectionInfo
 import TraderCore.IBInterface as ibapi
 
@@ -44,7 +44,7 @@ def startBot(connection_info, bot, symbol):
    return api
 
 def multiProduction():
-   CapitolManager.initialize(65000)
+   CapitalManager.initialize(65000)
    ip = "127.0.0.1"
    connection = 1
    # WBD ##########
