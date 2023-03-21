@@ -5,7 +5,7 @@ import threading
 import time
 import random
 
-class CapitolManager():
+class CapitalManager():
    _save_file = "Save/capitol.json"
    _instance = None
    _lock = threading.Lock()
@@ -78,14 +78,14 @@ def capital_user():
    for _ in range(30):
       rand_wait = random.random()
       rand_capitol = 5000 * random.random()
-      rand_capitol = CapitolManager.take_capitol(rand_capitol)
+      rand_capitol = CapitalManager.take_capitol(rand_capitol)
       time.sleep(rand_wait)
-      CapitolManager.add_capitol(rand_capitol)
+      CapitalManager.add_capitol(rand_capitol)
 
    
 if __name__ == "__main__":
    #Test the capitol singlton
-   CapitolManager.initialize(60000)
+   CapitalManager.initialize(60000)
    thread_list = []
    for _ in range(60):
       thread_list.append(threading.Thread(target=capital_user))

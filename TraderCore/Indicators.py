@@ -204,6 +204,26 @@ class CrossingMomentum(IndicatorBase):
       self.value = sum(self.crossing_list) / self.crossing_count
 
       return self.value
+   
+class MovingMass(IndicatorBase):
+   def __init__(self, window_size) -> None:
+      super().__init__()
+      self.mass_window_size = window_size
+      self.mass_window = [0] * self.window_size
+      self.crossing_value = 0
+      self.value = 0
+
+   def compute(self, moving_avg: float, last_bar: BarData):
+      if last_bar.wap > moving_avg:
+         self.crossing_list.append(1)
+         self.crossing_list.pop(0)
+      elif last_bar.wap < moving_avg:
+         self.crossing_list.append(-1)
+         self.crossing_list.pop(0)
+
+      self.value = sum(self.crossing_list) / self.crossing_count
+
+      return self.value
 
 class BenchmarkDeviation(IndicatorBase):
    def __init__(self) -> None:
