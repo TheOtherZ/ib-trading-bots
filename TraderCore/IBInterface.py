@@ -112,6 +112,7 @@ class IBInterface(EClient, EWrapper):
             # First bar after succeeding in catching last bar from a set
             if self.missed_bars > 0:
                print(f"{self.contract.symbol}: New bar started, bars missed: {self.missed_bars}")
+               print("\n") # Give some space between bars to make console reading easier
             self.bar_complete = False
          else:
             print(f"{self.contract.symbol}: First bar or bar miss")
@@ -123,7 +124,7 @@ class IBInterface(EClient, EWrapper):
                self.bot.trading_enabled = True
          self.missed_bars = -1
          self.last_complete_bar_time = self.last_bar_time
-      elif bar_time - self.last_complete_bar_time + 1 > self.bar_size_secs:
+      elif bar_time - self.last_complete_bar_time > self.bar_size_secs:
          self.bar_complete = True
          process_now = True
          self.last_complete_bar_time = bar_time
@@ -145,20 +146,20 @@ class IBInterface(EClient, EWrapper):
             CapitalManager.take_capitol(self.bot.capital)
             self.order.totalQuantity = num_pending
             info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
-            print(info_str)
+            print(self.esclame_string(info_str))
             logging.info(info_str)
             self.placeOrder(self.next_order_id, self.contract, self.order)
             self.reqIds(-1)
          else:
             info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
-            print(info_str)
+            print(self.esclame_string(info_str))
             logging.info(info_str)
       elif open_or_close == "close" and order_type == "short":
          self.order.action = "BUY"
          self.order.totalQuantity = num_pending
          CapitalManager.add_capitol(self.bot.capital)
          info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
-         print(info_str)
+         print(self.esclame_string(info_str))
          logging.info(info_str)
          self.placeOrder(self.next_order_id, self.contract, self.order)
          self.reqIds(-1)
@@ -168,20 +169,20 @@ class IBInterface(EClient, EWrapper):
             CapitalManager.take_capitol(self.bot.capital)
             self.order.totalQuantity = num_pending
             info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
-            print(info_str)
+            print(self.esclame_string(info_str))
             logging.info(info_str)
             self.placeOrder(self.next_order_id, self.contract, self.order)
             self.reqIds(-1)
          else:
             info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
-            print(info_str)
+            print(self.esclame_string(info_str))
             logging.info(info_str)
       elif open_or_close == "close" and order_type == "long":
          self.order.action = "SELL"
          self.order.totalQuantity = num_pending
          CapitalManager.add_capitol(self.bot.capital)
          info_str = f"{open_or_close}, {order_type} with bar: {str(bar)}"
-         print(info_str)
+         print(self.esclame_string(info_str))
          logging.info(info_str)
          self.placeOrder(self.next_order_id, self.contract, self.order)
          self.reqIds(-1)
@@ -239,6 +240,10 @@ class IBInterface(EClient, EWrapper):
       super().positionEnd()
       print("PositionEnd")
       self.cancelPositions()
+
+   @staticmethod
+   def esclame_string(msg) -> str:
+      return "**************************\n" + msg + "\n**************************"
 
 bar_sizes_secs = {
    "1 secs": 1,
