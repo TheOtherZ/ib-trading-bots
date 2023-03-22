@@ -124,7 +124,7 @@ class IBInterface(EClient, EWrapper):
                self.bot.trading_enabled = True
          self.missed_bars = -1
          self.last_complete_bar_time = self.last_bar_time
-      elif bar_time - self.last_complete_bar_time > self.bar_size_secs:
+      elif bar_time - self.last_complete_bar_time + 1 > self.bar_size_secs:
          self.bar_complete = True
          process_now = True
          self.last_complete_bar_time = bar_time
