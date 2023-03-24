@@ -82,18 +82,20 @@ def multiProduction():
    fBot = CrossingBot(9, 5, 0.1, 2.5, 12, 10, 12, -1, True, log_file_name="CrossingProduction.txt", name="ProdFBot", log_level=logging.INFO, simulation=False)
    fAPI = startBot(connectionF, fBot, "F")
 
+   api_list = [wbdAPI, metaAPI, cclAPI, epamAPI, mrnaAPI, fAPI]
+
    # Handle multi-day?
    while True:
-      in_val = input("Enter q to quit:\n")
+      in_val = input("Enter q to quit or symbol to manually close:\n")
       if str(in_val) == 'q':
          print("Manual disconnect")
-         wbdAPI.disconnect()
-         cclAPI.disconnect()
-         epamAPI.disconnect()
-         metaAPI.disconnect()
-         mrnaAPI.disconnect()
-         fAPI.disconnect()
+         for api in api_list:
+            api.disconnect()
          break
+      
+      for api in api_list:
+         if api.contract.symbol == str(in_val):
+            api.closePosition()
 
 if __name__ == "__main__":
    multiProduction()

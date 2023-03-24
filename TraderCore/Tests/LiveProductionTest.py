@@ -15,18 +15,19 @@ class TestTrader(TraderBase):
       self.current_state = "open_long"
 
    def process(self, bar):
-      if self.current_state == "open_long":
-         self.open_position(bar.close, 100, "long")
-         self.current_state = "close_long"
-      elif self.current_state == "close_long":
-         self.close_position(bar.close, 100)
-         self.current_state = "open_short"
-      elif self.current_state == "open_short":
-         self.open_position(bar.close, 100, "short")
-         self.current_state = "close_short"
-      elif self.current_state == "close_short":
-         self.close_position(bar.close, 100)
-         self.current_state = "done"
+      if self.trading_enabled:
+         if self.current_state == "open_long":
+            self.open_position(bar.close, 100, "long")
+            self.current_state = "close_long"
+         elif self.current_state == "close_long":
+            self.close_position(bar.close, 100)
+            self.current_state = "open_short"
+         elif self.current_state == "open_short":
+            self.open_position(bar.close, 100, "short")
+            self.current_state = "close_short"
+         elif self.current_state == "close_short":
+            self.close_position(bar.close, 100)
+            self.current_state = "done"
          
       return super().process(bar)
     
@@ -68,10 +69,11 @@ if __name__ == "__main__":
     # INTC ##########
    connection += 1
    connectionINTC = ConnectionInfo(ip, 7497, connection)
-   metaBot = TestTrader(5000, False, log_file_name="TestProduction.txt", name="ProdTestBot", log_level=logging.INFO, simulation=False)
+   metaBot = TestTrader(5000, log_file_name="TestProduction.txt", name="ProdTestBot", log_level=logging.INFO, simulation=False)
    testAPI= startBot(connectionINTC, metaBot, "INTC")
 
    while(testAPI.bot.current_state != "done"):
        time.sleep()
 
    print("Production test complete")
+   testAPI.disconnect()
