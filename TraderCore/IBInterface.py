@@ -187,6 +187,21 @@ class IBInterface(EClient, EWrapper):
          self.placeOrder(self.next_order_id, self.contract, self.order)
          self.reqIds(-1)
 
+   def closePosition(self):
+      """ Used to manually close position"""
+      if self.bot.holding == "short":
+         self.order.action = "BUY"
+      elif self.bot.holding == "long":
+         self.order.action = "SELL"
+      self.order.totalQuantity = self.bot.num_held
+      CapitalManager.add_capitol(self.bot.capital)
+      info_str = f"Manually closing {self.contract.symbol}!"
+      print(self.esclame_string(info_str))
+      logging.info(info_str)
+      self.placeOrder(self.next_order_id, self.contract, self.order)
+      self.reqIds(-1)
+
+
    ###################### Running
 
    def error(self, reqId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
