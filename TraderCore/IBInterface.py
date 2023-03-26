@@ -21,7 +21,7 @@ class IBInterface(EClient, EWrapper):
       self.run_thread = Thread(target=self.run, daemon=True)
       self.next_order_id = None
       self.order = Order()
-      self.order.orderType = "MKT"
+      self.order.orderType = "MIDPRICE"
       self.order.transmit = True
       self.order.tif = "GTC"
       self.order.outsideRth =True
