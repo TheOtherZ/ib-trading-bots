@@ -49,7 +49,7 @@ def multiProduction():
    connection = 1
    # WBD ##########
    connectionWBD = ConnectionInfo(ip, 7497, connection)
-   wbdBot = CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False, capital=10000.0 log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
+   wbdBot = CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
    wbdAPI = startBot(connectionWBD, wbdBot, "WBD")
 
    # META ##########
