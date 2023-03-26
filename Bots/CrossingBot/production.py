@@ -44,7 +44,7 @@ def startBot(connection_info, bot, symbol):
    return api
 
 def multiProduction():
-   CapitalManager.initialize(4100)
+   CapitalManager.initialize(41000)
    ip = "127.0.0.1"
    connection = 1
    # WBD ##########
