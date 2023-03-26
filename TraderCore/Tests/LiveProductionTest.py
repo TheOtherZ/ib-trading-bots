@@ -40,6 +40,7 @@ def startBot(connection_info, bot, symbol):
    contract.primaryExchange = "NYSE"
    contract.currency = "USD"
    api = ibapi.IBInterface(bot, contract)
+   api.after_market_enabled = True
 
    bot.trading_enabled = False
 
@@ -73,7 +74,7 @@ if __name__ == "__main__":
    testAPI= startBot(connectionINTC, metaBot, "INTC")
 
    while(testAPI.bot.current_state != "done"):
-       time.sleep()
+       time.sleep(1.0)
 
    print("Production test complete")
    testAPI.disconnect()

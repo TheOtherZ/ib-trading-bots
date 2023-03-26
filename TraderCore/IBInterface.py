@@ -38,6 +38,7 @@ class IBInterface(EClient, EWrapper):
       self.last_bar_time = 0
       self.bar_complete = False
       self.missed_bars = -1
+      self.after_market_enabled = False
 
       # Market calendar
       self.nyse_cal = mcal.get_calendar('NYSE')
@@ -93,7 +94,7 @@ class IBInterface(EClient, EWrapper):
       self.last_bar = self.historic_bars[-1]
 
    def historicalDataUpdate(self, reqId: int, bar: BarData):
-      if not self.marketOpen():
+      if not self.marketOpen() and not self.after_market_enabled:
          print("Bar recieved, but market closed")
          return
       bar_time = time.time()
