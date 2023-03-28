@@ -113,7 +113,6 @@ class IBInterface(EClient, EWrapper):
             # First bar after succeeding in catching last bar from a set
             if self.missed_bars > 0:
                print(f"{self.contract.symbol}: New bar started, bars missed: {self.missed_bars}")
-               print("\n") # Give some space between bars to make console reading easier
             self.bar_complete = False
          else:
             print(f"{self.contract.symbol}: First bar or bar miss")
@@ -199,6 +198,7 @@ class IBInterface(EClient, EWrapper):
       info_str = f"Manually closing {self.contract.symbol}!"
       print(self.esclame_string(info_str))
       logging.info(info_str)
+      self.bot.open_or_close ="close"
       self.placeOrder(self.next_order_id, self.contract, self.order)
       self.reqIds(-1)
 
