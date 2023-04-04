@@ -79,6 +79,13 @@ class TraderBase(object):
             self.simulate_costs(quantity, price, True)
             self.confirm_open(price, quantity)
 
+   def cancel_open_position(self):
+      self.num_pending = 0
+      self.num_held = 0
+      self.average_price = 0
+      self.holding = None
+      self.open_or_close = None
+
    def close_position(self, price: float, quantity: int):
       if self.holding is not None and self.trading_enabled and self.num_pending == 0:
          logging.info(f"Closing {self.holding} position @ {price}")

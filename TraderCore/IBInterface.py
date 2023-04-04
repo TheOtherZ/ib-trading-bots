@@ -154,6 +154,7 @@ class IBInterface(EClient, EWrapper):
             info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
             print(self.esclame_string(info_str))
             logging.info(info_str)
+            self.bot.cancel_open_position()
       elif open_or_close == "close" and order_type == "short":
          self.order.action = "BUY"
          self.order.totalQuantity = num_pending
@@ -177,6 +178,7 @@ class IBInterface(EClient, EWrapper):
             info_str = f"Atempted {open_or_close}, {order_type} with symbol: {self.contract.symbol}, but no more money"
             print(self.esclame_string(info_str))
             logging.info(info_str)
+            self.bot.cancel_open_position()
       elif open_or_close == "close" and order_type == "long":
          self.order.action = "SELL"
          self.order.totalQuantity = num_pending
