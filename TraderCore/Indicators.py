@@ -62,7 +62,8 @@ class StochasticOscillator(IndicatorBase):
       min_val = min(self.min_window)
       max_val = max(self.max_window)
 
-      self.fast_value = (last_bar.close - min_val) / (max_val - min_val) * 100
+      if max_val - min_val != 0:
+         self.fast_value = (last_bar.close - min_val) / (max_val - min_val) * 100
       self.stochastic_values.append( self.fast_value)
       self.stochastic_values.pop(0)
 
