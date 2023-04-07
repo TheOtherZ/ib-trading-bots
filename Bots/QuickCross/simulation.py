@@ -6,19 +6,19 @@ def build_trader_list(frame=None, strange=False) -> list[QuickCross]:
 
    # average_window, crossing_window, crossing_threshold, stop_loss, rsi_window, profit_horizon, profit_take
    if frame == "full":
-      average_window_list = [20, 30, 40]
-      crossing_window_list = [8, 10, 16]
+      average_window_list = [20, 30, 40, 60]
+      crossing_window_list = [10, 16, 24]
       crossing_threshold_list = [.2, .3, 0.4]
       stop_loss_list = [1.0]
-      rsi_list = [4, 8, 12]
-      profit_horizon_list = [5, 8]
-      profit_take_list = [0.2, 0.3, 0.5]
+      rsi_list = [4, 8, 12, 22]
+      profit_horizon_list = [5, 8, 12]
+      profit_take_list = [0.2, 0.3, 0.5, 0.6]
    elif frame == "fast":
-      average_window_list = [12, 20]
-      crossing_window_list = [5, 8, 10]
-      crossing_threshold_list = [.1, .2, .3]
+      average_window_list = [20, 30, 40]
+      crossing_window_list = [10, 16]
+      crossing_threshold_list = [.2, .3]
       stop_loss_list = [1.0]
-      rsi_list = [4, 8, 12]
+      rsi_list = [5, 8]
       profit_horizon_list = [5, 8]
       profit_take_list = [0.2, 0.3, 0.5]
    else:
@@ -44,14 +44,40 @@ def build_trader_list(frame=None, strange=False) -> list[QuickCross]:
 
    return trader_list
 
+def re_sort(file_name, new_name, sort_idx):
+   with open(file_name, 'r') as f:
+      entries = []
+      for line in f.readlines():
+         line.replace('(', '').replace(')', '').replace(',', '').replace('"', '').replace('\n', '').replace("'0,'", "'0'")
+         item = line.split(' ')
+         if item[sort_idx] == "'0,'":
+            item[sort_idx] = 0
+         entries.append(item)
+
+   
+
+   for x, val in enumerate(entries):
+      if val[sort_idx] == '0,':
+         entries[x][sort_idx] = '0'
+         #print(val)
+   #return
+
+   entries.sort(key=lambda x: float(x[sort_idx][:10]), reverse=True)
+
+   with open (new_name, 'w') as f:
+      for item in entries:
+         f.write(str(item) + '\n')
+
 def simSP500():
    test_trader_list = build_trader_list("full")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   #ticker_file = "S&P500-Symbols.csv"
-   ticker_file = "quick-list.csv"
+   ticker_file = "S&P500-Symbols.csv"
+   #ticker_file = "quick-list.csv"
+   #ticker_file = "etf-symbols.csv"
 
-   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="qick-list-relaxed-stochastic.txt", print_len=None)
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="full-sp5002-list.txt", print_len=None)
 
 if __name__ == "__main__":
    simSP500()
+   #re_sort("full-sp500-list.txt", "full-sp500-list-profit-sort.txt", 1)
