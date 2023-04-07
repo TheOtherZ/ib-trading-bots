@@ -29,7 +29,7 @@ def threaded_processor(traders: list[TraderBase], result_queue, bar_data: list, 
 
    traders.sort(reverse=True)
    for trader in traders[:num_results]:
-      result = (ticker, trader.profit, trader.drawdown, trader.num_trades, trader.total_costs, str(trader))
+      result = (ticker, trader.profit, trader.drawdown, trader.num_trades, trader.total_costs, trader.compute_win_percent(), str(trader))
       result_queue.put(result)
       #result_queue.task_done()
 
@@ -59,7 +59,7 @@ def simulate_single_trader(trader: TraderBase, bar_data_file, print_stats=True):
       trader.print_stats()
       print(trader)
 
-def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5, sav_file=None, print_len=25):
+def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name, day_period=None, top_traders=5, sav_file=None, print_len=25, sort_win_rate=False):
    start_time = time.time()
    num_trader_sort = min(len(traders), top_traders)
 
@@ -89,8 +89,13 @@ def simulate_ticker_group(traders: list[TraderBase], data_dir, ticker_file_name,
 
       while not result_queue.empty():
          results.append(result_queue.get())
+
+   if sort_win_rate:
+      sort_idx = 5
+   else:
+      sort_idx = 1
    
-   results.sort(key=lambda x: x[1], reverse=True)
+   results.sort(key=lambda x: x[sort_idx], reverse=True)
 
    print("Completed in %s" % (time.time() - start_time))
    for result in results[:25]:

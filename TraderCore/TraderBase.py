@@ -28,6 +28,8 @@ class TraderBase(object):
    num_held = 0
    average_price = 0
    open_or_close = None
+   win_trades = 0
+   win_percent = 0.0
 
    # Trade logic
    trading_enabled = False
@@ -158,9 +160,15 @@ class TraderBase(object):
    def __ge__(self, other):
       return self.profit >= other.profit
    
+   def compute_win_percent(self):
+      if self.num_trades > 0:
+         return self.win_trades / self.num_trades
+      else:
+         return 0
+   
    def get_stats(self):
-      return "%s: Profit: %s, Ticker: %s, Trades: (%s, %s, %s), Drawdown: %s, Stops: %s, Costs: %s" % (self.name, self.profit, self.ticker, self.num_trades, self.short_trades, \
-                                                                                                self.long_trades, self.drawdown, self.stop_trades, self.total_costs)
+      return "%s: Profit: %s, Ticker: %s, Trades: (%s, %s, %s), Drawdown: %s, Stops: %s, Costs: %s, Win rate: %s" % (self.name, self.profit, self.ticker, self.num_trades, self.short_trades, \
+                                                                                                self.long_trades, self.drawdown, self.stop_trades, self.total_costs, self.compute_win_percent())
 
    def print_stats(self):
       info_str = self.get_stats()

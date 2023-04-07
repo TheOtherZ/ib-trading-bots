@@ -5,6 +5,7 @@ import os
 import time
 
 sp_info_file_name = "S&P500-Info.csv"
+#sp_symbols_file_name = "etf-symbols.csv"
 sp_symbols_file_name = "S&P500-Symbols.csv"
 
 
@@ -21,7 +22,7 @@ if __name__ == "__main__":
    contract.primaryExchange = "NYSE"
    contract.currency = "USD"
 
-   connection = ConnectionInfo("192.168.50.243", 7497, 1)
+   connection = ConnectionInfo("127.0.0.1", 7497, 1)
    collector = FlatHistoryCollector(contract, connection)
    collector.startup()
 
