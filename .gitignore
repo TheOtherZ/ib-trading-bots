@@ -7,3 +7,9 @@ pythonclient/*
 .vscode/*
 **/Save/*
 **/*Production.txt
+#C++
+*.exe
+*.ilk
+*.obj
+*.pdb
+*/cppclient/*
