@@ -14,4 +14,3 @@ add_executable(main
     IbAPI.cpp)
 
 target_link_libraries(main ${PROJECT_SOURCE_DIR}/cppclient/client/libTwsSocketClient.so)
-
