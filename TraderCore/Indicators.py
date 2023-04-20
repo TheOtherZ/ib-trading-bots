@@ -152,7 +152,7 @@ class MovingAverage(IndicatorBase):
    def compute(self, bar_list: BarList):
       val_sum = 0
       for bar in bar_list[-self.window_size:]:
-         val_sum += bar.wap
+         val_sum += float(bar.wap)
       
       self.value = val_sum / self.window_size
 
@@ -210,19 +210,43 @@ class MovingMass(IndicatorBase):
    def __init__(self, window_size) -> None:
       super().__init__()
       self.mass_window_size = window_size
-      self.mass_window = [0] * self.window_size
-      self.crossing_value = 0
-      self.value = 0
+      self.above_window = [0] * self.mass_window_size
+      self.below_window = [0] * self.mass_window_size
+      self.last_avg_above = 0
+      self.last_avg_below = 0
+      self.value = 50
+      self.total_count = 0
 
    def compute(self, moving_avg: float, last_bar: BarData):
-      if last_bar.wap > moving_avg:
-         self.crossing_list.append(1)
-         self.crossing_list.pop(0)
-      elif last_bar.wap < moving_avg:
-         self.crossing_list.append(-1)
-         self.crossing_list.pop(0)
+      diff = last_bar.wap - moving_avg
+      if diff >= 0:
+         self.above_window.append(diff)
+         self.below_window.append(0)
+      else:
+         self.above_window.append(0)
+         self.below_window.append(-diff)
+      
+      self.above_window.pop(0)
+      self.below_window.pop(0)
 
-      self.value = sum(self.crossing_list) / self.crossing_count
+      self.total_count += 1
+      if self.total_count < self.mass_window_size - 1:
+         return self.value
+      elif self.total_count == self.mass_window_size:
+         avg_above = sum(self.above_window) / self.mass_window_size
+         avg_below = sum(self.below_window) / self.mass_window_size
+      else:
+         avg_above = (self.last_avg_above * (self.mass_window_size - 1) + self.above_window[-1]) / self.mass_window_size
+         avg_below = (self.last_avg_below * (self.mass_window_size - 1) + self.below_window[-1]) / self.mass_window_size
+
+      self.last_avg_above = avg_above
+      self.last_avg_below = avg_below
+
+      if avg_below == 0:
+         self.value = 100
+      else:
+         ratio = avg_above / avg_below
+         self.value = 100 - (100 / (1 + ratio))
 
       return self.value
 
@@ -238,7 +262,7 @@ class BenchmarkDeviation(IndicatorBase):
       return benchmark_percent_change - target_percent_change
 
 if __name__ == "__main__":
-   test_file = "Data/QQQ_Apr-25-2022-13-00.csv"
+   test_file = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\Tickers\\EPAM\\EPAM_2023-02-28_10 mins.csv"
 
    bars = []
    with open(test_file, 'r') as t_file:
@@ -251,10 +275,17 @@ if __name__ == "__main__":
    rsi = RSIOscillator(100)
    rsi_volume = VolumeRSIOscillator(14)
    ez_volume = EZVolume(100)
+   bar_window = [BarData()] * 50
+   moving_avg = MovingAverage(25)
+   moving_mass = MovingMass(25)
 
    for bar in bars:
-      rsi.compute(bar)
-      rsi_volume.compute(bar)
-      ez_volume.compute(bar)
-      print(ez_volume.value)
+      # rsi.compute(bar)
+      # rsi_volume.compute(bar)
+      # ez_volume.compute(bar)
+      bar_window.append(bar)
+      bar_window.pop(0)
+      moving_avg.compute(bar_window)
+      moving_mass.compute(moving_avg.value, bar)
+      print(moving_mass.value)
    

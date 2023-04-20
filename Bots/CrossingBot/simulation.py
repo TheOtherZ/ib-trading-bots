@@ -122,13 +122,13 @@ def simSP500():
    test_trader_list = build_trader_list("short")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   ticker_file = "S&P500-Symbols.csv"
-   #ticker_file = "short_list.csv"
+   #ticker_file = "S&P500-Symbols.csv"
+   ticker_file = "short_list.csv"
 
    #simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="short-sp500.txt")
 
    test_trader_list = build_trader_list("long")
-   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="long-sp500.txt")
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="long-sp500.txt", print_len=None)
 
 def simBest():
    test_trader_list = []
@@ -148,8 +148,8 @@ def simBest():
    simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=3, sav_file="BEST-sp500.txt", print_len=None)
 
 if __name__ == "__main__":
-   #simSP500()
+   simSP500()
    #simSingle()
    #simMETA()
-   simEPAM()
+   #simEPAM()
    #simBest()
