@@ -79,11 +79,11 @@ class MeanRegressionBot(TraderBase):
          profit_long, profit_short = compute_percent_threshold(self.average_price, bar.close, self.proft_take)
 
          close = False
-         if self.holding == "long" and (stop_long or bar.close >= self.moving_average.value or profit_long):
+         if self.holding == "long" and (stop_long or self.moving_mass.value > 85 or profit_long):
             if bar.close > self.average_price:
                self.win_trades += 1
             close = True
-         elif self.holding == "short" and (stop_short or bar.close <= self.moving_average.value or profit_short):
+         elif self.holding == "short" and (stop_short or self.moving_mass.value < 15 or profit_short):
             if bar.close < self.average_price:
                self.win_trades += 1
             close = True

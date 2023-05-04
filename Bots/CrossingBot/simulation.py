@@ -14,7 +14,7 @@ def build_trader_list(frame="short", strange=False) -> CrossingBot:
       sell_crossing_list = [-0.1, 0.1, 0.3]
       strange_list = [strange]
    elif frame == "fast":
-      average_window_list = [9, 12]
+      average_window_list = [9, 12, 20]
       crossing_window_list = [5, 8]
       crossing_threshold_list = [.2, .3]
       stop_loss_list = [1.0, 2.0]
@@ -130,6 +130,18 @@ def simSP500():
    test_trader_list = build_trader_list("long")
    simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="long-sp500.txt", print_len=None)
 
+def simSP50030min():
+   test_trader_list = build_trader_list("short")
+
+   ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_30Min\\"
+   ticker_file = "S&P500-Symbols.csv"
+   #ticker_file = "short_list.csv"
+
+   #simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="short-sp500.txt")
+
+   test_trader_list = build_trader_list("fast")
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="long-sp500.txt", print_len=None)
+
 def simBest():
    test_trader_list = []
    test_trader_list.append(CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False)) # WBD
@@ -148,8 +160,9 @@ def simBest():
    simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=3, sav_file="BEST-sp500.txt", print_len=None)
 
 if __name__ == "__main__":
-   simSP500()
+   #simSP500()
    #simSingle()
    #simMETA()
    #simEPAM()
    #simBest()
+   simSP50030min()

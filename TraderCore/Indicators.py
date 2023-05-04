@@ -218,7 +218,7 @@ class MovingMass(IndicatorBase):
       self.total_count = 0
 
    def compute(self, moving_avg: float, last_bar: BarData):
-      diff = last_bar.wap - moving_avg
+      diff = float(last_bar.wap) - moving_avg
       if diff >= 0:
          self.above_window.append(diff)
          self.below_window.append(0)

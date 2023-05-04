@@ -6,6 +6,7 @@ from TraderCore.ConnectionInfo import ConnectionInfo
 import time
 import datetime
 from threading import Thread
+import pathlib
 
 class FlatHistoryCollector(EClient, EWrapper):
    def __init__(self, contract: Contract, connection_info: ConnectionInfo):
@@ -40,7 +41,10 @@ class FlatHistoryCollector(EClient, EWrapper):
       super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
 
    def open_log_file(self, file_name):
-      self.log_file = open(file_name, 'w')
+      print(file_name)
+      log_file_path = pathlib.Path(file_name)
+      log_file_path.touch(exist_ok=True)
+      self.log_file = open(log_file_path, 'w')
       self.collection_complete = False
       self.log_file.write("Date,Open,High,Low,Close,Volume,Average,BarCount\n")
 
@@ -58,7 +62,7 @@ class FlatHistoryCollector(EClient, EWrapper):
       if end_date == "":
          str_end_date = str(datetime.datetime.today().date())
       else:
-         str_end_date = end_date
+         str_end_date = end_date[:8]
 
       bar_file = self.contract.symbol + "_" + str_end_date + "_" + interval + ".csv"
       if dir is not None:

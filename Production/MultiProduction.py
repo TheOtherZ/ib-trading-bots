@@ -2,7 +2,8 @@ import logging
 import math
 import time
 
-from CrossingBot import CrossingBot
+from Bots.MeanRegression.MeanRegressionBot import MeanRegressionBot
+from Bots.CrossingBot.CrossingBot import CrossingBot
 from ibapi.contract import Contract
 from TraderCore.CapitalManager import CapitalManager
 from TraderCore.ConnectionInfo import ConnectionInfo
@@ -44,25 +45,55 @@ def startBot(connection_info, bot, symbol):
    return api
 
 def multiProduction():
-   CapitalManager.initialize(41000)
+   CapitalManager.initialize(21000)
 
    # print("waiting for market open")
-   # time.sleep(36000)
+   # time.sleep(28800)
    ip = "127.0.0.1"
    api_list = []
    connection = 1
    # WBD ##########
    connectionWBD = ConnectionInfo(ip, 7497, connection)
-   wbdBot = CrossingBot(40, 60, 0.3, 2.0, 8, 25, 24, 0.3, False, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
+   wbdBot = MeanRegressionBot(60, 16, 2.0, 12, 2.0, "WBD", capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdWBDBot", log_level=logging.INFO, simulation=False)
    wbdAPI = startBot(connectionWBD, wbdBot, "WBD")
    api_list.append(wbdAPI)
 
-   # META ##########
+   # CF ##########
    connection += 1
-   connectionMETA = ConnectionInfo(ip, 7497, connection)
-   metaBot = CrossingBot(60, 80, 0.3, 3.0, 8, 15, 12, -0.1, False, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdMETABot", log_level=logging.INFO, simulation=False)
-   metaAPI= startBot(connectionMETA, metaBot, "META")
-   api_list.append(metaAPI)
+   connectionCF = ConnectionInfo(ip, 7497, connection)
+   cfBot = MeanRegressionBot(60, 10, 2.0, 8, 3.0, "CF", capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdCFBot", log_level=logging.INFO, simulation=False)
+   cfAPI= startBot(connectionCF, cfBot, "CF")
+   api_list.append(cfAPI)
+
+   # WHR ##########
+   connection += 1
+   connectionWHR = ConnectionInfo(ip, 7497, connection)
+   wfrBot = MeanRegressionBot(80, 24, 2.0, 8, 5.0, "WHR", capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdWHRBot", log_level=logging.INFO, simulation=False)
+   wfrAPI = startBot(connectionWHR, wfrBot, "WHR")
+   api_list.append(wfrAPI)
+
+   # DHI ##########
+   connection += 1
+   connectionDHI = ConnectionInfo(ip, 7497, connection)
+   dhiBot = MeanRegressionBot(80, 16, 2.0, 8, 2.0, "DHI", capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdDHIBot", log_level=logging.INFO, simulation=False)
+   dhiAPI = startBot(connectionDHI, dhiBot, "DHI")
+   api_list.append(dhiAPI)
+
+
+   ############## Crossing bots
+   # EPAM ##########
+   # connection += 1
+   # connectionEPAM = ConnectionInfo(ip, 7497, connection)
+   # epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, -1, True, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
+   # epamAPI = startBot(connectionEPAM, epamBot, "EPAM")
+   # api_list.append(epamAPI)
+
+    # F ##########
+   # connection += 1
+   # connectionF = ConnectionInfo(ip, 7497, connection)
+   # fBot = CrossingBot(9, 5, 0.1, 2.5, 12, 10, 12, -1, True, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdFBot", log_level=logging.INFO, simulation=False)
+   # fAPI = startBot(connectionF, fBot, "F")
+   # api_list.append(fAPI)
 
    # CCL ##########
    connection += 1
@@ -71,41 +102,12 @@ def multiProduction():
    cclAPI = startBot(connectionCCL, cclBot, "CCL")
    api_list.append(cclAPI)
 
-   # EPAM ##########
-   connection += 1
-   connectionEPAM = ConnectionInfo(ip, 7497, connection)
-   epamBot = CrossingBot(9, 5, 0.2, 1.0, 4, 10, 12, -1, True, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdEPAMBot", log_level=logging.INFO, simulation=False)
-   epamAPI = startBot(connectionEPAM, epamBot, "EPAM")
-   api_list.append(epamAPI)
-
    # MRNA ##########
    connection += 1
    connectionMRNA = ConnectionInfo(ip, 7497, connection)
    mrnaBot = CrossingBot(12, 10, 0.2, 2.0, 4, 15, 8, -0.1, False, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdMRNABot", log_level=logging.INFO, simulation=False)
    mrnaAPI = startBot(connectionMRNA, mrnaBot, "MRNA")
    api_list.append(mrnaAPI)
-
-   # F ##########
-   connection += 1
-   connectionF = ConnectionInfo(ip, 7497, connection)
-   fBot = CrossingBot(9, 5, 0.1, 2.5, 12, 10, 12, -1, True, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdFBot", log_level=logging.INFO, simulation=False)
-   fAPI = startBot(connectionF, fBot, "F")
-   api_list.append(fAPI)
-
-   # DHI ##########
-   connection += 1
-   connectionDHI = ConnectionInfo(ip, 7497, connection)
-   dhiBot = CrossingBot(20, 10, 0.1, 1.5, 8, 5, 8, 0.3, True, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdDHIBot", log_level=logging.INFO, simulation=False)
-   dhiAPI = startBot(connectionDHI, dhiBot, "DHI")
-   api_list.append(dhiAPI)
-
-   # FANG ##########
-   connection += 1
-   connectionFANG = ConnectionInfo(ip, 7497, connection)
-   fangBot = CrossingBot(20, 8, 0.1, 2.5, 8, 5, 12, 0.3, True, capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdFANGBot", log_level=logging.INFO, simulation=False)
-   fangAPI = startBot(connectionFANG, fangBot, "FANG")
-   api_list.append(fangAPI)
-
 
    # Handle multi-day?
    while True:

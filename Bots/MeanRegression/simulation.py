@@ -56,8 +56,18 @@ def simSp500():
    #ticker_file = "quick-list-mean-conversion.csv"
    #ticker_file = "etf-symbols.csv"
 
-   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="sp500-no-stop-loss.txt", print_len=None)
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="sp500-new-exit.txt", print_len=None)
+
+def simSp50030Min():
+   test_trader_list = build_trader_list("fast")
+
+   ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_30Min\\"
+   ticker_file = "S&P500-Symbols.csv"
+   #ticker_file = "quick-list-mean-conversion.csv"
+   #ticker_file = "etf-symbols.csv"
+
+   simulate_ticker_group(test_trader_list, ticker_dir, ticker_file, top_traders=5, sav_file="sp500-30min.txt", print_len=None)
 
 
 if __name__ == "__main__":
-   simSp500()
+   simSp50030Min()
