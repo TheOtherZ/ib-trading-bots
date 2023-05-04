@@ -100,3 +100,12 @@ if __name__ == "__main__":
             new_name = out_dir + name.split("/")[1]
             new_master_list.write(new_name + "\n")
             upscale_file(name, new_name, 2)
+
+
+def compute_percent_threshold(baseline: float, value: float, percent: float) -> tuple[bool]:
+   if value > (baseline * (100 + percent) / 100.0):
+      return True, False
+   elif value < (baseline * (100 - percent) / 100.0):
+      return False, True
+   else:
+      return False, False
