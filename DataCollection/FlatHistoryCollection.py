@@ -35,9 +35,11 @@ class FlatHistoryCollector(EClient, EWrapper):
          bar.date, bar.open, bar.high, bar.low, bar.close, bar.volume, bar.wap, bar.barCount))
       
    def error(self, reqId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
-      if errorCode == 4102:
-         print(f"Error occurred: {errorCode} " + errorString)
-         self.cancelHistoricalData()
+      #print(f"Error occurred: {errorCode} " + errorString)
+      if errorCode == 162 or errorCode == 200:
+         self.cancelHistoricalData(reqId)
+         self.disconnect()
+         self.collection_complete = True
       super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
 
    def open_log_file(self, file_name):

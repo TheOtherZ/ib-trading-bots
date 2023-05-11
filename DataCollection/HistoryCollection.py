@@ -1,4 +1,5 @@
 from ibapi.client import EClient
+from ibapi.common import TickerId
 from ibapi.contract import Contract
 from ibapi.wrapper import EWrapper
 from ibapi.wrapper import BarData
@@ -84,4 +85,8 @@ class HistoryCollector(EClient, EWrapper):
       
       # Cleanup
       master_file_handle.close()
+      self.disconnect()
+
+   def error(self, reqId: TickerId, errorCode: int, errorString: str, advancedOrderRejectJson=""):
+      super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
       self.disconnect()

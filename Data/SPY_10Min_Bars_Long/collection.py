@@ -4,11 +4,8 @@ import pandas as pd
 import os
 import time
 
-import traceback
-
 sp_info_file_name = "S&P500-Info.csv"
-#sp_symbols_file_name = "etf-symbols.csv"
-sp_symbols_file_name = "S&P500-Symbols.csv"
+sp_symbols_file_name = "ticker_list.csv"
 
 
 def getSandP():
@@ -24,8 +21,7 @@ if __name__ == "__main__":
    contract.primaryExchange = "NYSE"
    contract.currency = "USD"
 
-
-   connection = ConnectionInfo("127.0.0.1", 7497, 1)
+   connection = ConnectionInfo("127.0.0.1", 7498, 1)
    collector = FlatHistoryCollector(contract, connection)
    collector.startup()
 
@@ -36,16 +32,11 @@ if __name__ == "__main__":
          if not os.path.exists(path):
             os.makedirs(path)
 
+         end_date = "20230509-20:00:00"
          print("Collecting data for " + ticker)
          collector.contract.symbol = ticker
          start_time = time.time()
-         # yyyyMMdd-HH:mm:ss
-         end_date = "20230430-12:00:00"
-         try:
-            collector.collectDayData('2 Y', end_date, "30 mins", path +"/")
-         except Exception as e:
-            traceback.print_exc()
-            collector.disconnect()
+         collector.collectDayData('4 Y', end_date, "10 mins", path +"/")
          print(f"Completed in {time.time() - start_time}S")
 
    collector.disconnect()
