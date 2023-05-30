@@ -7,6 +7,7 @@ pythonclient/*
 .vscode/*
 **/Save/*
 **/*Production.txt
+*LiveUpdateProduction-*
 # C++
 *.exe
 *.ilk
