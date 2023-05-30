@@ -47,8 +47,8 @@ def startBot(connection_info, bot, symbol):
 def multiProduction():
    CapitalManager.initialize(21000)
 
-   # print("waiting for market open")
-   # time.sleep(28800)
+   print("waiting for market open")
+   time.sleep(28800)
    ip = "127.0.0.1"
    api_list = []
    connection = 1
@@ -59,11 +59,11 @@ def multiProduction():
    # api_list.append(wbdAPI)
 
    # CF ##########
-   connection += 1
-   connectionCF = ConnectionInfo(ip, 7497, connection)
-   cfBot = MeanRegressionBot(60, 10, 2.0, 8, 3.0, "CF", capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdCFBot", log_level=logging.INFO, simulation=False)
-   cfAPI= startBot(connectionCF, cfBot, "CF")
-   api_list.append(cfAPI)
+   # connection += 1
+   # connectionCF = ConnectionInfo(ip, 7497, connection)
+   # cfBot = MeanRegressionBot(60, 10, 2.0, 8, 3.0, "CF", capital=10000.0, log_file_name="CrossingProduction.txt", name="ProdCFBot", log_level=logging.INFO, simulation=False)
+   # cfAPI= startBot(connectionCF, cfBot, "CF")
+   # api_list.append(cfAPI)
 
    # WHR ##########
    connection += 1

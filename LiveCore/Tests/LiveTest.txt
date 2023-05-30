@@ -1,0 +1,334 @@
+INFO:ibapi.client:sent startApi
+INFO:ibapi.client:REQUEST startApi {}
+INFO:ibapi.client:SENDING startApi b'\x00\x00\x00\t71\x002\x0027\x00\x00'
+INFO:ibapi.wrapper:ANSWER connectAck {}
+INFO:ibapi.wrapper:ANSWER nextValidId {'orderId': 57}
+INFO:ibapi.wrapper:ANSWER managedAccounts {'accountsList': 'DU5983084'}
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:hfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:hfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:usfarm.nj', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:usfarm.nj
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:jfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:jfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:cashfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:cashfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:eufarmnj', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:eufarmnj
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:usfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:usfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:euhmds', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:euhmds
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:cashhmds', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:cashhmds
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:fundfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:fundfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:ushmds', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:ushmds
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2158, 'errorString': 'Sec-def data farm connection is OK:secdefil', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2158 Sec-def data farm connection is OK:secdefil
+INFO:ibapi.client:REQUEST reqPositions {}
+INFO:ibapi.client:SENDING reqPositions b'\x00\x00\x00\x0561\x001\x00'
+INFO:ibapi.wrapper:ANSWER position {'account': 'DU5983084', 'contract': 2195292108592: 4391,AMD,STK,,0,,,NASDAQ,,USD,AMD,NMS,False,,,,combo:, 'position': Decimal('0'), 'avgCost': 0.0}
+INFO:ibapi.wrapper:ANSWER position {'account': 'DU5983084', 'contract': 2195292104464: 270639,INTC,STK,,0,,,NASDAQ,,USD,INTC,NMS,False,,,,combo:, 'position': Decimal('0'), 'avgCost': 0.0}
+INFO:ibapi.wrapper:ANSWER positionEnd {}
+INFO:ibapi.client:REQUEST cancelPositions {}
+INFO:ibapi.client:SENDING cancelPositions b'\x00\x00\x00\x0564\x001\x00'
+INFO:ibapi.client:REQUEST reqHistoricalData {'reqId': 57, 'contract': 2195292106144: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'endDateTime': '', 'durationStr': '3 D', 'barSizeSetting': '10 mins', 'whatToShow': 'TRADES', 'useRTH': 1, 'formatDate': 1, 'keepUpToDate': True, 'chartOptions': []}
+INFO:ibapi.client:SENDING reqHistoricalData b'\x00\x00\x00E20\x0057\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x000\x00\x0010 mins\x003 D\x001\x00TRADES\x001\x001\x00\x00'
+INFO:ibapi.client:REQUEST reqHistoricalData {'reqId': 58, 'contract': 2195292110512: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'endDateTime': '', 'durationStr': '3 D', 'barSizeSetting': '10 mins', 'whatToShow': 'TRADES', 'useRTH': 1, 'formatDate': 1, 'keepUpToDate': True, 'chartOptions': []}
+INFO:ibapi.client:SENDING reqHistoricalData b'\x00\x00\x00F20\x0058\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x000\x00\x0010 mins\x003 D\x001\x00TRADES\x001\x001\x00\x00'
+INFO:ibapi.wrapper:ANSWER historicalDataEnd {'reqId': 57, 'start': '20230519 12:47:49 America/Denver', 'end': '20230522 12:47:49 America/Denver'}
+INFO:ibapi.wrapper:ANSWER historicalDataEnd {'reqId': 58, 'start': '20230519 12:47:49 America/Denver', 'end': '20230522 12:47:49 America/Denver'}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of 100 at 30.28
+INFO:LiveCore.LiveIBInterface:**************************
+OPEN: INTCTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 60, 'contract': 2195292110512: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2195292282384: 0,0,0: MKT BUY 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0060\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00BUY\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 60, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 60 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:LiveCore.LiveTraderBase:AMDTest: order of 100 at 108.03
+INFO:LiveCore.LiveIBInterface:**************************
+OPEN: AMDTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 61, 'contract': 2195292106144: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2195292282576: 0,0,0: MKT BUY 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01W3\x0061\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00BUY\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 61, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 61 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 60, 'contract': 2195292282624: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292282576: 60,27,1137417520: MKT BUY 100@30.28 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DDDB0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 60, 'status': 'Submitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417520, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 61, 'contract': 2195292280752: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292275376: 61,27,1137417521: MKT BUY 100@108.03 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DD6C0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 61, 'status': 'Submitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417521, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 61, 'contract': 2195292283728: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292281760: 61,27,1137417521: MKT BUY 100@0 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DC250>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 61, 'status': 'Submitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417521, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2195292278208: 4391,AMD,STK,,0,,,EDGEA,,USD,AMD,NMS,False,,,,combo:, 'execution': 2195292282576: ExecId: 0000e0d5.646c05b2.01.01, Time: 20230522 12:47:51 America/Denver, Account: DU5983084, Exchange: EDGEA, Side: BOT, Shares: 100, Price: 108.04, PermId: 1137417521, ClientId: 27, OrderId: 61, Liquidation: 0, CumQty: 100, AvgPrice: 108.04, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 61, 'contract': 2195292288720: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292276960: 61,27,1137417521: MKT BUY 100@0 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DF070>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.04
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of 100.0 at 108.04
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 61, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.04, 'permId': 1137417521, 'parentId': 0, 'lastFillPrice': 108.04, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 61, 'contract': 2195292280512: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292288288: 61,27,1137417521: MKT BUY 100@0 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DE350>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 61, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.04, 'permId': 1137417521, 'parentId': 0, 'lastFillPrice': 108.04, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2195292275808: ExecId: 0000e0d5.646c05b2.01.01, Commission: 1, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:AMDTest: order of -100 at 108.03
+INFO:LiveCore.LiveIBInterface:**************************
+CLOSE: AMDTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 62, 'contract': 2195292106144: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2195292277728: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0062\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 62, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 62 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2195292277728: 270639,INTC,STK,,0,,,IEX,,USD,INTC,NMS,False,,,,combo:, 'execution': 2195292287760: ExecId: 00025b45.646be6cc.01.01, Time: 20230522 12:47:52 America/Denver, Account: DU5983084, Exchange: IEX, Side: BOT, Shares: 100, Price: 30.28, PermId: 1137417520, ClientId: 27, OrderId: 60, Liquidation: 0, CumQty: 100, AvgPrice: 30.28, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 60, 'contract': 2195292288000: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292281760: 60,27,1137417520: MKT BUY 100@30.28 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DD960>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.28
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of 100.0 at 30.28
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 60, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.28, 'permId': 1137417520, 'parentId': 0, 'lastFillPrice': 30.28, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 60, 'contract': 2195292287088: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292275280: 60,27,1137417520: MKT BUY 100@30.28 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DD6C0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 60, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.28, 'permId': 1137417520, 'parentId': 0, 'lastFillPrice': 30.28, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2195292098944: ExecId: 00025b45.646be6cc.01.01, Commission: 1, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 62, 'contract': 2195292281856: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292103216: 62,27,1137417522: MKT SELL 100@108.02 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DDC60>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 62, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417522, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2195292107008: 4391,AMD,STK,,0,,,EDGEA,,USD,AMD,NMS,False,,,,combo:, 'execution': 2195292287760: ExecId: 0000e0d5.646c05b3.01.01, Time: 20230522 12:47:52 America/Denver, Account: DU5983084, Exchange: EDGEA, Side: SLD, Shares: 100, Price: 108.02, PermId: 1137417522, ClientId: 27, OrderId: 62, Liquidation: 0, CumQty: 100, AvgPrice: 108.02, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 62, 'contract': 2195292110704: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292110752: 62,27,1137417522: MKT SELL 100@108.02 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219B3850>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.02
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of -100.0 at 108.02
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 62, 'status': 'Filled', 'filled': Decimal('-100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.02, 'permId': 1137417522, 'parentId': 0, 'lastFillPrice': 108.02, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 62, 'contract': 2195292105904: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292105808: 62,27,1137417522: MKT SELL 100@108.02 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219B1030>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 62, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.02, 'permId': 1137417522, 'parentId': 0, 'lastFillPrice': 108.02, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2195292108352: ExecId: 0000e0d5.646c05b3.01.01, Commission: 1.100916, Currency: USD, RealizedPnL: -4.100916, Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:AMDTest: order of -100 at 108.03
+INFO:LiveCore.LiveIBInterface:**************************
+OPEN: AMDTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 63, 'contract': 2195292106144: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2195292281520: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0063\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 63, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 63 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 63, 'contract': 2195292277392: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292280368: 63,27,1137417523: MKT SELL 100@108.03 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DCB80>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 63, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417523, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2195292110752: 4391,AMD,STK,,0,,,ISLAND,,USD,AMD,NMS,False,,,,combo:, 'execution': 2195292105904: ExecId: 0000e0d5.646c05b6.01.01, Time: 20230522 12:47:52 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: SLD, Shares: 100, Price: 108.03, PermId: 1137417523, ClientId: 27, OrderId: 63, Liquidation: 0, CumQty: 100, AvgPrice: 108.03, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 63, 'contract': 2194834358528: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292105184: 63,27,1137417523: MKT SELL 100@108.03 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF0652B250>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.03
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of 100.0 at 108.03
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 63, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.03, 'permId': 1137417523, 'parentId': 0, 'lastFillPrice': 108.03, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 63, 'contract': 2194834371248: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2195292110704: 63,27,1137417523: MKT SELL 100@108.03 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DCB80>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 63, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.03, 'permId': 1137417523, 'parentId': 0, 'lastFillPrice': 108.03, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2195292103936: ExecId: 0000e0d5.646c05b6.01.01, Commission: 1.100924, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of -100 at 30.28
+INFO:LiveCore.LiveIBInterface:**************************
+CLOSE: INTCTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 64, 'contract': 2195292110512: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2195292280704: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01Y3\x0064\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 64, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 64 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 64, 'contract': 2195292284112: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292280704: 64,27,1137417524: MKT SELL 100@30.27 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DF730>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 64, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417524, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2195292098608: 270639,INTC,STK,,0,,,BYX,,USD,INTC,NMS,False,,,,combo:, 'execution': 2194834371248: ExecId: 00025b45.646be6d2.01.01, Time: 20230522 12:47:54 America/Denver, Account: DU5983084, Exchange: BYX, Side: SLD, Shares: 100, Price: 30.27, PermId: 1137417524, ClientId: 27, OrderId: 64, Liquidation: 0, CumQty: 100, AvgPrice: 30.27, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 64, 'contract': 2195292282576: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292280224: 64,27,1137417524: MKT SELL 100@30.27 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DDE40>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.27
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of -100.0 at 30.27
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 64, 'status': 'Filled', 'filled': Decimal('-100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.27, 'permId': 1137417524, 'parentId': 0, 'lastFillPrice': 30.27, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 64, 'contract': 2195292280704: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292290016: 64,27,1137417524: MKT SELL 100@30.27 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DE4D0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 64, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.27, 'permId': 1137417524, 'parentId': 0, 'lastFillPrice': 30.27, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2195292280176: ExecId: 00025b45.646be6d2.01.01, Commission: 1.038716, Currency: USD, RealizedPnL: -3.038716, Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of -100 at 30.28
+INFO:LiveCore.LiveIBInterface:**************************
+OPEN: INTCTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 65, 'contract': 2195292110512: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2195292289584: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01Y3\x0065\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 65, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 65 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 65, 'contract': 2195292285120: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292103936: 65,27,1137417525: MKT SELL 100@30.27 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DEDA0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 65, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417525, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2195292285792: 270639,INTC,STK,,0,,,ISLAND,,USD,INTC,NMS,False,,,,combo:, 'execution': 2195292285552: ExecId: 00025b45.646be6d3.01.01, Time: 20230522 12:47:54 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: SLD, Shares: 100, Price: 30.27, PermId: 1137417525, ClientId: 27, OrderId: 65, Liquidation: 0, CumQty: 100, AvgPrice: 30.27, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 65, 'contract': 2195292282576: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292288816: 65,27,1137417525: MKT SELL 100@30.27 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DED40>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.27
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of 100.0 at 30.27
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 65, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.27, 'permId': 1137417525, 'parentId': 0, 'lastFillPrice': 30.27, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 65, 'contract': 2195292286368: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2195292280176: 65,27,1137417525: MKT SELL 100@30.27 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x000001FF219DE8C0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 65, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.27, 'permId': 1137417525, 'parentId': 0, 'lastFillPrice': 30.27, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2195292282432: ExecId: 00025b45.646be6d3.01.01, Commission: 1.038716, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:ibapi.client:disconnecting
+INFO:ibapi.wrapper:ANSWER connectionClosed {}
+INFO:ibapi.client:sent startApi
+INFO:ibapi.client:REQUEST startApi {}
+INFO:ibapi.client:SENDING startApi b'\x00\x00\x00\t71\x002\x0027\x00\x00'
+INFO:ibapi.wrapper:ANSWER connectAck {}
+INFO:ibapi.wrapper:ANSWER nextValidId {'orderId': 66}
+INFO:ibapi.wrapper:ANSWER managedAccounts {'accountsList': 'DU5983084'}
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:hfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:hfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:usfarm.nj', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:usfarm.nj
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:jfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:jfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:cashfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:cashfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:eufarmnj', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:eufarmnj
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2104, 'errorString': 'Market data farm connection is OK:usfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2104 Market data farm connection is OK:usfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:euhmds', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:euhmds
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:cashhmds', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:cashhmds
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:fundfarm', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:fundfarm
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2106, 'errorString': 'HMDS data farm connection is OK:ushmds', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2106 HMDS data farm connection is OK:ushmds
+INFO:ibapi.wrapper:ANSWER error {'reqId': -1, 'errorCode': 2158, 'errorString': 'Sec-def data farm connection is OK:secdefil', 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR -1 2158 Sec-def data farm connection is OK:secdefil
+INFO:ibapi.client:REQUEST reqPositions {}
+INFO:ibapi.client:SENDING reqPositions b'\x00\x00\x00\x0561\x001\x00'
+INFO:ibapi.wrapper:ANSWER position {'account': 'DU5983084', 'contract': 2218943739696: 4391,AMD,STK,,0,,,NASDAQ,,USD,AMD,NMS,False,,,,combo:, 'position': Decimal('0'), 'avgCost': 0.0}
+INFO:ibapi.wrapper:ANSWER position {'account': 'DU5983084', 'contract': 2218943735568: 270639,INTC,STK,,0,,,NASDAQ,,USD,INTC,NMS,False,,,,combo:, 'position': Decimal('0'), 'avgCost': 0.0}
+INFO:ibapi.wrapper:ANSWER positionEnd {}
+INFO:ibapi.client:REQUEST cancelPositions {}
+INFO:ibapi.client:SENDING cancelPositions b'\x00\x00\x00\x0564\x001\x00'
+INFO:ibapi.client:REQUEST reqHistoricalData {'reqId': 66, 'contract': 2218943739696: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'endDateTime': '', 'durationStr': '3 D', 'barSizeSetting': '10 mins', 'whatToShow': 'TRADES', 'useRTH': 1, 'formatDate': 1, 'keepUpToDate': True, 'chartOptions': []}
+INFO:ibapi.client:SENDING reqHistoricalData b'\x00\x00\x00E20\x0066\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x000\x00\x0010 mins\x003 D\x001\x00TRADES\x001\x001\x00\x00'
+INFO:ibapi.client:REQUEST reqHistoricalData {'reqId': 67, 'contract': 2218943736864: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'endDateTime': '', 'durationStr': '3 D', 'barSizeSetting': '10 mins', 'whatToShow': 'TRADES', 'useRTH': 1, 'formatDate': 1, 'keepUpToDate': True, 'chartOptions': []}
+INFO:ibapi.client:SENDING reqHistoricalData b'\x00\x00\x00F20\x0067\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x000\x00\x0010 mins\x003 D\x001\x00TRADES\x001\x001\x00\x00'
+INFO:ibapi.wrapper:ANSWER historicalDataEnd {'reqId': 66, 'start': '20230519 12:49:40 America/Denver', 'end': '20230522 12:49:40 America/Denver'}
+INFO:LiveCore.LiveTraderBase:AMDTest: order of 100 at 108.2
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 69, 'contract': 2218943739696: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943730576: 0,0,0: MKT BUY 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01W3\x0069\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00BUY\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 69, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 69 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER historicalDataEnd {'reqId': 67, 'start': '20230519 12:49:40 America/Denver', 'end': '20230522 12:49:40 America/Denver'}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 69, 'contract': 2218943740224: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943738352: 69,27,1137417532: MKT BUY 100@108.21 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A6260>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 69, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417532, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943736576: 4391,AMD,STK,,0,,,ISLAND,,USD,AMD,NMS,False,,,,combo:, 'execution': 2218943736768: ExecId: 0000e0d5.646c05fa.01.01, Time: 20230522 12:49:41 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: BOT, Shares: 100, Price: 108.21, PermId: 1137417532, ClientId: 27, OrderId: 69, Liquidation: 0, CumQty: 100, AvgPrice: 108.21, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 69, 'contract': 2218943739312: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943737104: 69,27,1137417532: MKT BUY 100@108.21 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A7790>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.21
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of 100.0 at 108.21
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 69, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.21, 'permId': 1137417532, 'parentId': 0, 'lastFillPrice': 108.21, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 69, 'contract': 2218943735568: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943740560: 69,27,1137417532: MKT BUY 100@108.21 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A7940>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 69, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.21, 'permId': 1137417532, 'parentId': 0, 'lastFillPrice': 108.21, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943736480: ExecId: 0000e0d5.646c05fa.01.01, Commission: 1, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of 100 at 30.29
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 70, 'contract': 2218943736864: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943730192: 0,0,0: MKT BUY 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0070\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00BUY\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 70, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 70 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 70, 'contract': 2218943741328: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943736288: 70,27,1137417533: MKT BUY 100@30.3 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A7C40>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 70, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417533, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943738352: 270639,INTC,STK,,0,,,EDGEA,,USD,INTC,NMS,False,,,,combo:, 'execution': 2218943739312: ExecId: 00025b45.646be72d.01.01, Time: 20230522 12:49:41 America/Denver, Account: DU5983084, Exchange: EDGEA, Side: BOT, Shares: 100, Price: 30.3, PermId: 1137417533, ClientId: 27, OrderId: 70, Liquidation: 0, CumQty: 100, AvgPrice: 30.3, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 70, 'contract': 2218943738688: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943734272: 70,27,1137417533: MKT BUY 100@30.3 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A7B50>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.3
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of 100.0 at 30.3
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 70, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.3, 'permId': 1137417533, 'parentId': 0, 'lastFillPrice': 30.3, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 70, 'contract': 2218943740560: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943738448: 70,27,1137417533: MKT BUY 100@30.3 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A7D90>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 70, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.3, 'permId': 1137417533, 'parentId': 0, 'lastFillPrice': 30.3, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943734992: ExecId: 00025b45.646be72d.01.01, Commission: 1, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:AMDTest: order of -100 at 108.2
+INFO:LiveCore.LiveIBInterface:**************************
+CLOSE: AMDTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 71, 'contract': 2218943739696: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943864000: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0071\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 71, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 71 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 71, 'contract': 2218943862416: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943730096: 71,27,1137417534: MKT SELL 100@108.2 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C4EB0>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 71, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417534, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943740752: 4391,AMD,STK,,0,,,ISLAND,,USD,AMD,NMS,False,,,,combo:, 'execution': 2218943734272: ExecId: 0000e0d5.646c05fb.01.01, Time: 20230522 12:49:42 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: SLD, Shares: 100, Price: 108.2, PermId: 1137417534, ClientId: 27, OrderId: 71, Liquidation: 0, CumQty: 100, AvgPrice: 108.2, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 71, 'contract': 2218943738688: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943740224: 71,27,1137417534: MKT SELL 100@108.2 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A68F0>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.2
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of -100.0 at 108.2
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 71, 'status': 'Filled', 'filled': Decimal('-100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.2, 'permId': 1137417534, 'parentId': 0, 'lastFillPrice': 108.2, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 71, 'contract': 2218943737104: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943740992: 71,27,1137417534: MKT SELL 100@108.2 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A6710>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 71, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.2, 'permId': 1137417534, 'parentId': 0, 'lastFillPrice': 108.2, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218923164528: ExecId: 0000e0d5.646c05fb.01.01, Commission: 1.10106, Currency: USD, RealizedPnL: -3.10106, Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of -100 at 30.29
+INFO:LiveCore.LiveIBInterface:**************************
+CLOSE: INTCTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 72, 'contract': 2218943736864: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943736768: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01Y3\x0072\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 72, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 72 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 72, 'contract': 2218943865248: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943741808: 72,27,1137417535: MKT SELL 100@30.29 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C6830>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 72, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417535, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943736048: 270639,INTC,STK,,0,,,EDGEA,,USD,INTC,NMS,False,,,,combo:, 'execution': 2218943740224: ExecId: 00025b45.646be72e.01.01, Time: 20230522 12:49:42 America/Denver, Account: DU5983084, Exchange: EDGEA, Side: SLD, Shares: 100, Price: 30.29, PermId: 1137417535, ClientId: 27, OrderId: 72, Liquidation: 0, CumQty: 100, AvgPrice: 30.29, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 72, 'contract': 2218943738448: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218486107392: 72,27,1137417535: MKT SELL 100@30.29 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A7640>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.29
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of -100.0 at 30.29
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 72, 'status': 'Filled', 'filled': Decimal('-100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.29, 'permId': 1137417535, 'parentId': 0, 'lastFillPrice': 30.29, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 72, 'contract': 2218943730192: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943734992: 72,27,1137417535: MKT SELL 100@30.29 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A5180>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 72, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.29, 'permId': 1137417535, 'parentId': 0, 'lastFillPrice': 30.29, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943736288: ExecId: 00025b45.646be72e.01.01, Commission: 1.038732, Currency: USD, RealizedPnL: -3.038732, Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of -100 at 30.29
+INFO:LiveCore.LiveIBInterface:**************************
+OPEN: INTCTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 73, 'contract': 2218943736864: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943734752: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01Y3\x0073\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 73, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 73 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 73, 'contract': 2218943867840: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943734752: 73,27,1137417536: MKT SELL 100@30.29 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C6F80>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 73, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417536, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943734992: 270639,INTC,STK,,0,,,ISLAND,,USD,INTC,NMS,False,,,,combo:, 'execution': 2218943739456: ExecId: 00025b45.646be72f.01.01, Time: 20230522 12:49:43 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: SLD, Shares: 100, Price: 30.29, PermId: 1137417536, ClientId: 27, OrderId: 73, Liquidation: 0, CumQty: 100, AvgPrice: 30.29, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 73, 'contract': 2218943737008: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943735568: 73,27,1137417536: MKT SELL 100@30.29 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35A5030>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.29
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of -100.0 at 30.29
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 73, 'status': 'Filled', 'filled': Decimal('-100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.29, 'permId': 1137417536, 'parentId': 0, 'lastFillPrice': 30.29, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 73, 'contract': 2218486107392: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943738448: 73,27,1137417536: MKT SELL 100@30.29 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x0000020488138B20>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 73, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.29, 'permId': 1137417536, 'parentId': 0, 'lastFillPrice': 30.29, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943740992: ExecId: 00025b45.646be72f.01.01, Commission: 1.038732, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:AMDTest: order of -100 at 108.2
+INFO:LiveCore.LiveIBInterface:**************************
+OPEN: AMDTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 74, 'contract': 2218943739696: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943868464: 0,0,0: MKT SELL 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0074\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00SELL\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 74, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 74 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 74, 'contract': 2218943859296: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943738352: 74,27,1137417537: MKT SELL 100@108.19 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C5060>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 74, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417537, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943735568: 4391,AMD,STK,,0,,,ARCA,,USD,AMD,NMS,False,,,,combo:, 'execution': 2218486106912: ExecId: 0000e0d5.646c05fc.01.01, Time: 20230522 12:49:43 America/Denver, Account: DU5983084, Exchange: ARCA, Side: SLD, Shares: 100, Price: 108.19, PermId: 1137417537, ClientId: 27, OrderId: 74, Liquidation: 0, CumQty: 100, AvgPrice: 108.19, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 74, 'contract': 2218943864816: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943730048: 74,27,1137417537: MKT SELL 100@108.19 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C7670>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.19
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of -100.0 at 108.19
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 74, 'status': 'Filled', 'filled': Decimal('-100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.19, 'permId': 1137417537, 'parentId': 0, 'lastFillPrice': 108.19, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 74, 'contract': 2218943860832: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943737008: 74,27,1137417537: MKT SELL 100@108.19 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C4A60>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 74, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.19, 'permId': 1137417537, 'parentId': 0, 'lastFillPrice': 108.19, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943730192: ExecId: 0000e0d5.646c05fc.01.01, Commission: 1.101052, Currency: USD, RealizedPnL: , Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:AMDTest: order of 100 at 108.2
+INFO:LiveCore.LiveIBInterface:**************************
+CLOSE: AMDTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 75, 'contract': 2218943739696: 0,AMD,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943860976: 0,0,0: MKT BUY 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01W3\x0075\x000\x00AMD\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00BUY\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 75, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 75 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 75, 'contract': 2218943865680: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943739456: 75,27,1137417538: MKT BUY 100@108.2 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C5E40>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 75, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417538, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943738352: 4391,AMD,STK,,0,,,ISLAND,,USD,AMD,NMS,False,,,,combo:, 'execution': 2218943865584: ExecId: 0000e0d5.646c05fe.01.01, Time: 20230522 12:49:44 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: BOT, Shares: 100, Price: 108.2, PermId: 1137417538, ClientId: 27, OrderId: 75, Liquidation: 0, CumQty: 100, AvgPrice: 108.2, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 75, 'contract': 2218943864816: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943729712: 75,27,1137417538: MKT BUY 100@108.2 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C7310>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 AMD @ 108.2
+INFO:LiveCore.LiveTraderBase:AMDTest: confirm order of 100.0 at 108.2
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 75, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.2, 'permId': 1137417538, 'parentId': 0, 'lastFillPrice': 108.2, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 75, 'contract': 2218943864384: 4391,AMD,STK,,0,?,,SMART,,USD,AMD,NMS,False,,,,combo:, 'order': 2218943738448: 75,27,1137417538: MKT BUY 100@108.2 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C6350>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 75, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 108.2, 'permId': 1137417538, 'parentId': 0, 'lastFillPrice': 108.2, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943730048: ExecId: 0000e0d5.646c05fe.01.01, Commission: 1, Currency: USD, RealizedPnL: -3.101052, Yield: , YieldRedemptionDate: 0}
+INFO:LiveCore.LiveTraderBase:INTCTest: order of 100 at 30.3
+INFO:LiveCore.LiveIBInterface:**************************
+CLOSE: INTCTest
+**************************
+INFO:ibapi.client:REQUEST placeOrder {'orderId': 76, 'contract': 2218943736864: 0,INTC,STK,,0,,,SMART,NYSE,USD,,,False,,,,combo:, 'order': 2218943858288: 0,0,0: MKT BUY 100.000000@ GTC}
+INFO:ibapi.client:SENDING placeOrder b'\x00\x00\x01X3\x0076\x000\x00INTC\x00STK\x00\x000.0\x00\x00\x00SMART\x00NYSE\x00USD\x00\x00\x00\x00\x00BUY\x00100\x00MKT\x00\x00\x00GTC\x00\x00\x00\x000\x00\x001\x000\x000\x000\x000\x000\x001\x000\x00\x000\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00-1\x000\x00\x00\x000\x00\x00\x000\x000\x00\x000\x00\x00\x00\x00\x00\x000\x00\x00\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x000\x00\x00\x000\x000\x00\x00\x000\x00\x000\x000\x000\x000\x00\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x001.7976931348623157e+308\x000\x00\x00\x00\x001.7976931348623157e+308\x00\x00\x00\x00\x000\x000\x000\x00\x002147483647\x002147483647\x000\x00\x00\x00'
+INFO:ibapi.wrapper:ANSWER error {'reqId': 76, 'errorCode': 2109, 'errorString': "Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.", 'advancedOrderRejectJson': ''}
+ERROR:ibapi.wrapper:ERROR 76 2109 Order Event Warning:Attribute 'Outside Regular Trading Hours' is ignored based on the order type and destination. PlaceOrder is now being processed.
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 76, 'contract': 2218943860832: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943856896: 76,27,1137417539: MKT BUY 100@30.3 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C4610>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 76, 'status': 'PreSubmitted', 'filled': Decimal('0'), 'remaining': Decimal('100'), 'avgFillPrice': 0.0, 'permId': 1137417539, 'parentId': 0, 'lastFillPrice': 0.0, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER execDetails {'reqId': -1, 'contract': 2218943739456: 270639,INTC,STK,,0,,,ISLAND,,USD,INTC,NMS,False,,,,combo:, 'execution': 2218943860496: ExecId: 00025b45.646be732.01.01, Time: 20230522 12:49:45 America/Denver, Account: DU5983084, Exchange: ISLAND, Side: BOT, Shares: 100, Price: 30.3, PermId: 1137417539, ClientId: 27, OrderId: 76, Liquidation: 0, CumQty: 100, AvgPrice: 30.3, OrderRef: , EvRule: , EvMultiplier: 0, ModelCode: , LastLiquidity: 2}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 76, 'contract': 2218943860448: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943857760: 76,27,1137417539: MKT BUY 100@30.3 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C76D0>}
+INFO:LiveCore.LiveIBInterface:Confirmed order of: 100 INTC @ 30.3
+INFO:LiveCore.LiveTraderBase:INTCTest: confirm order of 100.0 at 30.3
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 76, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.3, 'permId': 1137417539, 'parentId': 0, 'lastFillPrice': 30.3, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER openOrder {'orderId': 76, 'contract': 2218943856896: 270639,INTC,STK,,0,?,,SMART,,USD,INTC,NMS,False,,,,combo:, 'order': 2218943862992: 76,27,1137417539: MKT BUY 100@30.3 GTC, 'orderState': <ibapi.order_state.OrderState object at 0x00000204A35C5060>}
+INFO:ibapi.wrapper:ANSWER orderStatus {'orderId': 76, 'status': 'Filled', 'filled': Decimal('100'), 'remaining': Decimal('0'), 'avgFillPrice': 30.3, 'permId': 1137417539, 'parentId': 0, 'lastFillPrice': 30.3, 'clientId': 27, 'whyHeld': '', 'mktCapPrice': 0.0}
+INFO:ibapi.wrapper:ANSWER commissionReport {'commissionReport': 2218943866208: ExecId: 00025b45.646be732.01.01, Commission: 1, Currency: USD, RealizedPnL: -3.038732, Yield: , YieldRedemptionDate: 0}
+INFO:ibapi.client:disconnecting
+INFO:ibapi.wrapper:ANSWER connectionClosed {}

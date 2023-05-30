@@ -1,6 +1,10 @@
 from TraderCore.TradingCosts import TradingCosts, ibkr_trading_costs
 
+import os
+from pathlib import Path
 import logging
+import json
+from threading import Lock
 logger = logging.getLogger(__name__)
 
 class LiveTraderBase(object):
@@ -22,19 +26,39 @@ class LiveTraderBase(object):
    trading_enabled = False
    ticker = None
    data_length = 0
+   purge_count = 0
 
    # Trading costs
    total_costs = 0
    slipage = 0
    fees = 0
 
+   # Threading support
+   watchdog_pet = False
+
    def __init__(self, name: str="TraderBase", capital: float=10000.0, simulation: bool=True, trading_costs: TradingCosts=ibkr_trading_costs) -> None:
       self.name = name
       self.simulation = simulation
       self.trading_costs = trading_costs
       self.capital = capital
+      self.live = False
+      self.simulated_save = {}
+      # Threading support 
+      self.bot_lock = Lock()
+
+      if not self.simulation:
+         # Create/open save file
+         if not os.path.exists("Save/"):
+            os.makedirs("Save/")
+         self.save_path = Path("Save/" + self.name + ".json")
+         if not self.save_path.is_file():
+            print("save does not exist, creating: " + str(self.save_path))
+            with open(self.save_path, 'w') as sv:
+               sv.write("{}")
 
    def process(self):
+      with self.bot_lock:
+         self.watchdog_pet = True
       return self.num_pending
 
    def order(self, price: float, quantity: int):
@@ -42,7 +66,7 @@ class LiveTraderBase(object):
       if self.num_held == 0 and self.num_pending == 0 and self.trading_enabled:
          self.num_pending = quantity
          self.average_price = price # needed to avoid immediate stop loss 
-      elif self.num_held != 0:
+      elif self.num_held != 0 and self.trading_enabled:
          self.num_pending = quantity
 
       if self.simulation:
@@ -99,3 +123,41 @@ class LiveTraderBase(object):
    
    def get_parameters(self):
       return ()
+   
+   def order_msg(self) -> str:
+      return self.name
+   
+   def save_value(self, key, value):
+      if self.simulation:
+         self.simulated_save[key] = value
+         return
+      data = None
+      with open(self.save_path, "r") as save:
+         data = json.load(save)
+
+      data[key] = value
+
+      with open(self.save_path, "w") as save:
+         json.dump(data, save)
+
+   def retrieve_value(self, key, default=0):
+      if self.simulation:
+         if key not in self.simulated_save:
+            self.simulated_save[key] = default
+         return self.simulated_save[key]
+      
+      data = None
+      with open(self.save_path, "r") as save:
+         data = json.load(save)
+
+      if key not in data:
+         data[key] = default
+         with open(self.save_path, "w") as save:
+            json.dump(data, save)
+
+      return data[key]
+   
+   def cancel_open_position(self):
+      self.num_pending = 0
+      self.num_held = 0
+      self.average_price = 0

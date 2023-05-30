@@ -8,11 +8,11 @@ import pandas_market_calendars as mcal
 import pandas as pd
 
 from LiveCore.LiveTraderBase import LiveTraderBase
-from TraderCore.CapitalManager import CapitalManager
+from LiveCore.CapitalManager import CapitalManager
 
 import math
 import time
-from threading import Thread
+from threading import Thread, Lock
 import logging
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,8 @@ class IBInterface(EClient, EWrapper):
 
    # Order configuration
    orderType = "MKT"
+   time_in_force = "GTC"
+   outside_hours = False
 
    # Contract configuration
    secType = "STK"
@@ -32,17 +34,61 @@ class IBInterface(EClient, EWrapper):
    # Bookeeping
    market_open = False
 
+   # Monitor
+   active_monitor = True
+
    def __init__(self, bot_list: list[LiveTraderBase]):
       self.run_thread = Thread(target=self.run, daemon=True)
+      self.monitor_thread = Thread(target=self.monitor, daemon=True)
+      self.thread_lock = Lock()
       self.bot_list = bot_list
       self.pending_orders = {} # ticker: owner_bot_id
       self.after_market_enabled = False
+      self.active_monitor = True
 
       # Market calendar
       self.nyse_cal = mcal.get_calendar('NYSE')
       self.schedule = self.nyse_cal.schedule(start_date='2023-01-01', end_date='2023-12-31')
 
       EClient.__init__(self, self)
+
+   def start_monitor(self):
+      self.active_monitor
+      self.monitor_thread.start()
+   
+   def stop_monitor(self):
+      self.active_monitor = False
+      if self.monitor_thread.is_alive():
+         self.monitor_thread.join(timeout=5)
+
+   def monitor(self):
+      service_time = time.time()
+      service_interval_secs = 5 * 60
+      while self.active_monitor:
+         if time.time() > service_time + service_interval_secs:
+            for key in self.bot_dict:
+               with self.bot_dict[key]["bot"].bot_lock:
+                  if self.bot_dict[key]["bot"].watchdog_pet != True and self.bot_dict[key]["bot"].purge_count == 0:
+                     print(f"WARNING: {self.bot_dict[key]['bot'].name} has stopped responding")
+                  else:
+                     self.bot_dict[key]["bot"].watchdog_pet = False
+            print("Monitor check completed")
+            service_time = time.time()
+         time.sleep(2)
+      
+      print("Monitor shutdown")
+   
+   def enable_after_market(self):
+      self.after_market_enabled = True
+      self.outside_hours = True
+
+   def disable_after_market(self):
+      self.after_market_enabled = False
+      self.outside_hours = False
+
+   def disconnect(self):
+      self.stop_monitor()
+      super().disconnect()
 
    def nextValidId(self, orderId: int):
       super().nextValidId(orderId)
@@ -99,38 +145,69 @@ class IBInterface(EClient, EWrapper):
    def historicalDataUpdate(self, reqId: int, bar: BarData):
       if not self.marketOpen() and not self.after_market_enabled:
          print("Bar recieved, but market closed")
+         #self.disconnect()
          return
       ticker = self.bot_dict[reqId]["bot"].ticker
       new_bar = True if self.bot_dict[reqId]["last_bar"].date != bar.date else False
       self.bot_dict[reqId]["bot"].trading_enabled = True
+      self.bot_dict[reqId]["bot"].live = True
       num_pending = self.bot_dict[reqId]["bot"].process(bar, new_bar)
-      if num_pending != 0 and ticker not in self.pending_orders:
-         #TODO: make order
-         # Open
-         if self.bot_dict[reqId]["bot"].num_held == 0 and CapitalManager.get_available_capitol() > self.bot_dict[reqId]["bot"].capital:
-            CapitalManager.take_capitol(self.bot_dict[reqId]["bot"].capital)
-         # Close
-         elif self.bot_dict[reqId]["bot"].num_held != 0:
-            CapitalManager.add_capitol(self.bot_dict[reqId]["bot"].capital)
-         
-         order = Order()
-         order.orderType = self.orderType
-         order.transmit = True
-         order.totalQuantity = num_pending
-         self.pending_orders[ticker] = [self.next_order_id, reqId] # way to link this order back to the bot
-         self.placeOrder(self.next_order_id, self.bot_dict[reqId]["contract"], order)
-         self.reqIds(-1)
+      with self.thread_lock:
+         order_condition = True
+         if num_pending != 0 and ticker not in self.pending_orders:
+            # Open
+            if self.bot_dict[reqId]["bot"].num_held == 0 and CapitalManager.get_available_capital() > self.bot_dict[reqId]["bot"].capital:
+               CapitalManager.take_capital(self.bot_dict[reqId]["bot"].capital)
+               msg = self.esclame_string("OPEN: " + self.bot_dict[reqId]["bot"].order_msg())
+               print(msg)
+               logger.info(msg)
+            # Close
+            elif self.bot_dict[reqId]["bot"].num_held != 0:
+               msg = self.esclame_string("CLOSE: " + self.bot_dict[reqId]["bot"].order_msg())
+               CapitalManager.add_capital(self.bot_dict[reqId]["bot"].capital)
+               print(msg)
+               logger.info(msg)
+            else:
+               # Condition not met
+               msg = self.esclame_string("ATTEMPTED OPEN: " + self.bot_dict[reqId]["bot"].name)
+               self.bot_dict[reqId]["bot"].cancel_open_position()
+               print(msg)
+               logger.info(msg)
+               order_condition = False
+            
+            if order_condition:
+               order = Order()
+               order.orderType = self.orderType
+               order.tif = self.time_in_force
+               order.outsideRth = self.outside_hours
+               order.transmit = True
+               order.totalQuantity = abs(num_pending)
+               if num_pending > 0:
+                  order.action = "BUY"
+               else:
+                  order.action = "SELL"
+               self.next_order_id += 1
+               self.pending_orders[ticker] = [self.next_order_id, reqId] # way to link this order back to the bot
+               self.placeOrder(self.next_order_id, self.bot_dict[reqId]["contract"], order)
       
       self.bot_dict[reqId]["last_bar"] = bar
 
    def orderStatus(self, orderId, status, filled, remaining, avgFullPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice):
-      logger.info(f'{self.contract.symbol}: orderStatus - orderid: {orderId} status: {status} num filled: {filled} remaining: {remaining} AverageFill: {avgFullPrice}')
+      #logger.info(f'TODO TICKER: orderStatus - orderid: {orderId} status: {status} num filled: {filled} remaining: {remaining} AverageFill: {avgFullPrice}')
       if status == "Filled" and remaining == 0:
-         for key in self.pending_orders:
-            if self.pending_orders[key][0] == orderId:
-               print(f"Confirmed order of: {filled} {key} @ {avgFullPrice}")
-               self.bot_dict[self.pending_orders[key][1]]["bot"].confirm_order(float(avgFullPrice), float(filled))
-               del(self.pending_orders[key])
+         with self.thread_lock:
+            for key in self.pending_orders:
+               if self.pending_orders[key][0] == orderId:
+                  msg = f"Confirmed order of: {filled} {key} @ {avgFullPrice}"
+                  logger.info(msg)
+                  print(self.esclame_string(msg))
+                  if self.bot_dict[self.pending_orders[key][1]]["bot"].num_held > 0 or self.bot_dict[self.pending_orders[key][1]]["bot"].num_pending < 0:
+                     filled = -filled
+
+                  self.bot_dict[self.pending_orders[key][1]]["bot"].confirm_order(float(avgFullPrice), float(filled))
+                  del(self.pending_orders[key])
+                  break
+      super().orderStatus(orderId, status, filled, remaining, avgFullPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice)
 
 
    def closePosition(self, ticker):
@@ -141,12 +218,13 @@ class IBInterface(EClient, EWrapper):
             order.orderType = self.orderType
             order.transmit = True
             order.totalQuantity = -self.bot_dict[key]["bot"].num_held
-            self.placeOrder(self.next_order_id,self.bot_dict[key]["contract"], order)
-            self.reqIds(-1)
+            with self.thread_lock:
+               self.next_order_id += 1
+               self.placeOrder(self.next_order_id,self.bot_dict[key]["contract"], order)
             info_str = f"Manually closing {self.contract.symbol}!"
             print(self.esclame_string(info_str))
             logger.info(info_str)
-            CapitalManager.add_capitol(self.bot_dict[key]["bot"].capital)
+            CapitalManager.add_capital(self.bot_dict[key]["bot"].capital)
             break
 
    #### Positions
@@ -170,10 +248,11 @@ class IBInterface(EClient, EWrapper):
       print("PositionEnd")
       self.cancelPositions()
 
-   def start_bots(self, host, port, clientId, bar_size: str):
+   def start_bots(self, host, port, clientId, bar_size: str, outsize_hours=1):
       self.connect(host, port, clientId)   
       self.run_thread.start()
-      if not self.blockForConnection(5):
+      print("Waiting for connection")
+      if not self.blockForConnection(10):
          print("Connection failed!")
          return
       
@@ -183,22 +262,35 @@ class IBInterface(EClient, EWrapper):
          time.sleep(1)
       
       for bot in self.bot_list:
+         # TODO: fix history calculation time
          history_seconds = bot.data_length * bar_sizes_secs[bar_size] * 60
          if history_seconds >= 86400:
             history_days = math.ceil(bot.data_length / 39.0)
-            history_str = f'{history_days} D'
+            history_str = f'{history_days + 2} D'
+            print
          else:
             history_str = f'{history_seconds} S'
-         self.reqHistoricalData(self.next_order_id, bot, '',  history_str, bar_size, "TRADES", 0, 1, True, [])
-         self.next_order_id += 1
+         with self.thread_lock:
+            self.reqHistoricalData(self.next_order_id, bot, '',  history_str, bar_size, "TRADES", outsize_hours, 1, True, [])
+            self.next_order_id += 1
+      
+      self.start_monitor()
 
    #### Helper functions
    @staticmethod
    def esclame_string(msg) -> str:
-      return "**************************\n" + msg + "\n**************************"
+      return "\n**************************\n" + msg + "\n**************************"
    
    def marketOpen(self):
       today = pd.Timestamp.today('UTC')
+      if self.nyse_cal.open_at_time(self.schedule, today):
+         return True
+      else:
+         return False
+      
+   def market_open_in_secs(self, secs: int) -> bool:
+      today = pd.Timestamp.today('UTC')
+      today.second += secs
       if self.nyse_cal.open_at_time(self.schedule, today):
          return True
       else:
@@ -228,40 +320,3 @@ bar_sizes_secs = {
    "1 week": 60 * 60 * 24 * 7,
    "1 month": 60 * 60 * 24 * 7 * 4 #TODO:???
 }
-
-if __name__ =="__main__":
-   #Testing
-   from Bots.MeanRegression.MeanRegressionBotLive import MeanRegressionBotLive
-   bot_pool = [
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 5.0, "WBD", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 5.0, "NVDA", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 5.0, "ETSY", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 16, 2.0, 8, 3.0, "PYPL", 10000, simulation=False),
-      # MeanRegressionBotLive(80, 60, 10, 2.0, 8, 4.0, "TSLA", 10000, simulation=False),
-      MeanRegressionBotLive(80, 60, 10, 2.0, 8, 3.0, "META", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 5.0, "CZR", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 4.0, "STLD", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 3.0, "NXPI", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 4.0, "SPGI", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 5.0, "CHRW", 10000, simulation=False),
-      # MeanRegressionBotLive(60, 80, 10, 2.0, 8, 3.0, "UAL", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 3.0, "PWR", 10000, simulation=False),
-      # MeanRegressionBotLive(120, 80, 10, 2.0, 8, 4.0, "DVA", 10000, simulation=False),
-      # MeanRegressionBotLive(80, 60, 10, 2.0, 8, 3.0, "BBWI", 10000, simulation=False)
-   ]
-   ip = "127.0.0.1"
-   port = 7498
-   connection = 27
-
-   interface = IBInterface(bot_pool)
-   interface.after_market_enabled = True
-   interface.start_bots(ip, port, connection, '3 mins')
-
-   while True:
-      in_val = input("Enter q to quit or symbol to manually close:\n")
-      if str(in_val) == 'q':
-         print("Manual disconnect")
-         interface.disconnect()
-         break
-      else:
-         interface.closePosition(str(in_val))
