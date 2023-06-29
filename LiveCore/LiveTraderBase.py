@@ -43,8 +43,11 @@ class LiveTraderBase(object):
       self.capital = capital
       self.live = False
       self.simulated_save = {}
-      # Threading support 
-      self.bot_lock = Lock()
+      # Threading support
+      if self.simulation:
+         self.bot_lock = LockStub()
+      else:
+         self.bot_lock = Lock()
 
       if not self.simulation:
          # Create/open save file
@@ -161,3 +164,10 @@ class LiveTraderBase(object):
       self.num_pending = 0
       self.num_held = 0
       self.average_price = 0
+
+class LockStub():
+   def __enter__(self):
+      pass
+
+   def __exit__(self, type, value, traceback):
+      pass

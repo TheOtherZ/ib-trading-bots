@@ -29,7 +29,7 @@ def forward_test(trader_cls, trader_config_list: list, tunning_period_bars, data
 
    
 
-def simulate_ticker_group(trader_cls, trader_config_list: list, data_dir, ticker_file_name, num_bars_to_test=None, top_traders=5, sav_file=None, print_len=25):
+def simulate_ticker_group(trader_cls, trader_config_list: list, data_dir, ticker_file_name, num_bars_to_test=None, top_traders=5, sav_file=None, print_len=25, thread_limit=None):
    start_time = time.time()
    num_trader_sort = min(len(trader_config_list), top_traders)
 
@@ -47,11 +47,28 @@ def simulate_ticker_group(trader_cls, trader_config_list: list, data_dir, ticker
             if num_bars_to_test is not None:
                ticker_bars = ticker_bars[:num_bars_to_test]
             thread_list.append(Process(target=threaded_processor, args=(trader_cls, trader_config_list, result_queue, ticker_bars, ticker, num_trader_sort)))
-            thread_list[-1].start()
+            # if thread_limit is not None and len(thread_list) == thread_limit:
+            #    for thread in thread_list:
+            #       thread.start()
+            #    for thread in thread_list:
+            #       thread.join()
 
-      for thread in thread_list:
-         thread.join()
+            #    while not result_queue.empty():
+            #       results.append(result_queue.get())
+            #    thread_list = []
 
+      thread_idx = 0
+      num_threads = len(thread_list)
+      if thread_limit is None:
+         thread_limit = num_threads
+      while thread_idx < num_threads:
+         end_idx = thread_idx + thread_limit if thread_idx + thread_limit < num_threads else num_threads
+         for thread in thread_list[thread_idx:end_idx]:
+            thread.start()
+         for thread in thread_list[thread_idx:end_idx]:
+            thread.join()
+         thread_idx = end_idx
+      
       while not result_queue.empty():
          results.append(result_queue.get())
    

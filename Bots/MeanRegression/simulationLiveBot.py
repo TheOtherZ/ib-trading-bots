@@ -23,8 +23,8 @@ def build_config_list(frame="fast") -> list:
       average_window_list = [60, 80, 120, 150, 200]
       crossing_window_long_list = [40, 60, 80, 120]
       crossing_window_list = [10, 16, 24, 40, 60]
-      stop_loss_list = [2.0]
-      rsi_list = [8, 12, 24]
+      stop_loss_list = [2.0, 3.0, 4.0]
+      rsi_list = [8]
       profit_take_list = [2.0, 3.0, 4.0, 5.0]
 
    
@@ -40,15 +40,15 @@ def build_config_list(frame="fast") -> list:
    return config_list
 
 
-def simSp500():
-   test_trader_config = build_config_list("medium")
+def simSp500(log_name):
+   test_trader_config = build_config_list("long")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
    ticker_file = "S&P500-Symbols.csv"
    #ticker_file = "quick-list-mean-conversion-live.csv"
    #ticker_file = "etf-symbols.csv"
 
-   simulate_ticker_group(MeanRegressionBotLive, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file="all-500-purge-stop-loss.txt", print_len=None)
+   simulate_ticker_group(MeanRegressionBotLive, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=None)
 
 def simSp50030Min():
    test_trader_list = build_config_list("fast")
@@ -78,17 +78,19 @@ def forward_test_sp_500():
    tunning_period = 19554
    forward_test(MeanRegressionBotLive, test_trader_list, tunning_period, ticker_dir, ticker_file, 10, "Index_Forward_Test.txt" )
 
-def reduce_results(file_name, out_name):
+def reduce_results(file_name, out_name, win_rate):
    with open(file_name, 'r') as src:
       with open(out_name, 'w') as dest:
          tickers = []
          for line in src:
-            ticker = line.split(" ")[0]
-            if ticker not in tickers:
+            data = line.split(" ")
+            ticker = data[0]
+            winning = float(data[3].strip(','))
+            if ticker not in tickers and winning >= win_rate:
                tickers.append(ticker)
                dest.write(line)
 
-def convert_to_prototypes(file_name, out_name):
+def convert_to_prototypes(file_name, out_name, capital=10000):
    import re
    regex = re.compile("\(([^\)]+)\)")
    with open(file_name, 'r') as src:
@@ -97,7 +99,7 @@ def convert_to_prototypes(file_name, out_name):
             ticker = line.split(" ")[0]
             results = regex.findall(line)
             params = results[1]
-            prototype = 'MeanRegressionBotLive(' + params + ', "' + ticker + '", ' + '10000, simulation=False, name="'+ ticker + 'RegressionBot"),# ' + results[0] + '\n'
+            prototype = 'MeanRegressionBotLive(' + params + ', "' + ticker + '", ' + str(capital) + ', simulation=False, name="'+ ticker + 'RegressionBot"),# ' + results[0] + '\n'
             dest.write(prototype)
 
 def simBotPool():
@@ -124,6 +126,8 @@ def simBotPool():
 
 
 if __name__ == "__main__":
-   #simSp500()
-   #reduce_results("all-500-purge-stop-loss.txt", "all-500-purge-stop-loss-reduced.txt")
-   convert_to_prototypes("all-500-purge-stop-loss-reduced.txt", "all-500-purge-stop-loss-prototypes.txt")
+   name = "no-rsi-9-all-500.txt"
+   #simSp500(name)
+   #simSp500OneBot()
+   reduce_results(name, "reduced-win-rate-" + name, 0.65)
+   convert_to_prototypes("reduced-win-rate-" + name, "prototypes-" + name, 5000)
