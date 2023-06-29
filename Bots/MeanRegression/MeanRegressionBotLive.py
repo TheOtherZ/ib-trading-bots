@@ -25,15 +25,16 @@ class MeanRegressionBotLive(LiveTraderBase):
       self.new_rsi = ind.RSIOscillator(rsi_window)
       self.new_long_mass = ind.MovingMass(momentum_window_long)
       self.new_moving_mass = ind.MovingMass(momentum_window)
+      self.moving_mass_history = []
 
       self.bar_list = []
       self.data_length = average_window + momentum_window_long + 5 #Some padding
       self.trade_active = False
       self.quantity_to_open = 1
+      self.history_length = self.data_length * 2
 
       self.stop_loss = stop_loss
       self.proft_take = profit_take
-      self.capital = capital
 
       self.purge_count = 8
       self.bars_to_purge = self.retrieve_value("bars_to_purge", 0)
@@ -46,7 +47,7 @@ class MeanRegressionBotLive(LiveTraderBase):
          # if self.trading_enabled and not self.simulation:
          #    print(self.order_msg())
          self.bar_list.append(bar)
-         if len(self.bar_list) > self.data_length:
+         if len(self.bar_list) > self.history_length:
             self.bar_list.pop(0)
             if not self.trade_active and not self.simulation:
                logger.info(self.name + " Data fill complete, trading active for " + self.ticker)
@@ -68,6 +69,10 @@ class MeanRegressionBotLive(LiveTraderBase):
             self.moving_mass.compute(self.moving_average.value, self.last_bar)
          self.new_long_mass.compute(self.moving_average.value, bar, new_bar)
          self.new_moving_mass.compute(self.moving_average.value, bar, new_bar)
+         if new_bar:
+            self.moving_mass_history.append(self.new_long_mass.value)
+            if len(self.moving_mass_history) > self.data_length:
+               self.moving_mass_history.pop(0)
 
       # if self.trading_enabled and not self.simulation:
       #    # pass # TODO
@@ -81,12 +86,17 @@ class MeanRegressionBotLive(LiveTraderBase):
       if not self.trade_active or self.bars_to_purge != 0:
          return 0
       #TODO
-      # open_long = self.moving_mass.value < 8 and bar.close < self.moving_average.value and self.rsi.value < 20
-      # open_short = self.moving_mass.value > 92 and bar.close > self.moving_average.value and self.rsi.value > 80
-      # open_long = self.moving_mass.value < 15 and bar.close < self.moving_average.value and self.rsi.value < 20 and self.long_mass.value > 70
-      # open_short = self.moving_mass.value > 85 and bar.close > self.moving_average.value and self.rsi.value > 80 and self.long_mass.value < 30
-      open_long = self.new_moving_mass.value < 15 and bar.close < self.moving_average.value and self.new_rsi.value < 20 and self.new_long_mass.value > 70
-      open_short = self.new_moving_mass.value > 85 and bar.close > self.moving_average.value and self.new_rsi.value > 80 and self.new_long_mass.value < 30
+      long_mass_upper = max(self.moving_mass_history) #TODO: is this fudge factor good?
+      long_mass_lower = min(self.moving_mass_history) #TODO: is this fudge factor good?
+
+      absolute_lower = 50
+      absolute_upper = 50
+      short_term_low = long_mass_lower - 10 if long_mass_lower - 10 < absolute_lower else absolute_lower
+      short_term_high = long_mass_upper + 10 if long_mass_upper + 10 > absolute_upper else absolute_upper
+      long_term_low = long_mass_lower + 10 if long_mass_lower + 10 < absolute_lower else absolute_lower
+      long_term_high = long_mass_upper - 10 if long_mass_upper - 10 > absolute_upper else absolute_upper
+      open_long = self.new_moving_mass.value < short_term_low  and self.new_long_mass.value > long_term_high
+      open_short = self.new_moving_mass.value > short_term_high and self.new_long_mass.value < long_term_low
 
       
       if self.num_held == 0:
@@ -96,8 +106,6 @@ class MeanRegressionBotLive(LiveTraderBase):
             self.order(bar.close, -self.quantity_to_open)
 
       else:
-         stop_long = False
-         stop_short = False
          stop_short, stop_long = compute_percent_threshold(self.average_price, bar.close, self.stop_loss)
          profit_long, profit_short = compute_percent_threshold(self.average_price, bar.close, self.proft_take)
 

@@ -4,6 +4,7 @@ import unittest as ut
 class TestLiveTraderBase(ut.TestCase):
    def test_open_close_long_profit_no_sim(self):
       trader_under_test = ltb.LiveTraderBase(simulation=False)
+      trader_under_test.trading_enabled = True
       # Open long position
       open_price = 45.50
       num_shares = 100
@@ -49,6 +50,7 @@ class TestLiveTraderBase(ut.TestCase):
 
    def test_open_close_short_profit_no_sim(self):
          trader_under_test = ltb.LiveTraderBase(simulation=False)
+         trader_under_test.trading_enabled = True
          # Open long position
          open_price = 45.50
          num_shares = 100

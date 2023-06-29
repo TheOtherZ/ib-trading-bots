@@ -37,6 +37,10 @@ class IBInterface(EClient, EWrapper):
    # Monitor
    active_monitor = True
 
+   # Market calendar
+   nyse_cal = mcal.get_calendar('NYSE')
+   schedule = nyse_cal.schedule(start_date='2023-01-01', end_date='2023-12-31')
+
    def __init__(self, bot_list: list[LiveTraderBase]):
       self.run_thread = Thread(target=self.run, daemon=True)
       self.monitor_thread = Thread(target=self.monitor, daemon=True)
@@ -46,9 +50,8 @@ class IBInterface(EClient, EWrapper):
       self.after_market_enabled = False
       self.active_monitor = True
 
-      # Market calendar
-      self.nyse_cal = mcal.get_calendar('NYSE')
-      self.schedule = self.nyse_cal.schedule(start_date='2023-01-01', end_date='2023-12-31')
+      # Keep track of attempted opens:
+      self.attempted_opens = {}
 
       EClient.__init__(self, self)
 
@@ -72,6 +75,9 @@ class IBInterface(EClient, EWrapper):
                      print(f"WARNING: {self.bot_dict[key]['bot'].name} has stopped responding")
                   else:
                      self.bot_dict[key]["bot"].watchdog_pet = False
+
+                  if not self.bot_dict[key]["bot"].trade_active:
+                     print(f"WARNING: Trading not active for {self.bot_dict[key]['bot'].name}")
             print("Monitor check completed")
             service_time = time.time()
          time.sleep(2)
@@ -161,6 +167,8 @@ class IBInterface(EClient, EWrapper):
                msg = self.esclame_string("OPEN: " + self.bot_dict[reqId]["bot"].order_msg())
                print(msg)
                logger.info(msg)
+               if ticker in self.attempted_opens:
+                  del(self.attempted_opens[ticker])
             # Close
             elif self.bot_dict[reqId]["bot"].num_held != 0:
                msg = self.esclame_string("CLOSE: " + self.bot_dict[reqId]["bot"].order_msg())
@@ -169,10 +177,16 @@ class IBInterface(EClient, EWrapper):
                logger.info(msg)
             else:
                # Condition not met
-               msg = self.esclame_string("ATTEMPTED OPEN: " + self.bot_dict[reqId]["bot"].name)
+               if ticker in self.attempted_opens:
+                  self.attempted_opens[ticker] += 1
+               else:
+                  self.attempted_opens[ticker] = 0
+
+               if self.attempted_opens[ticker] % 10 == 0:
+                  msg = self.esclame_string("ATTEMPTED OPEN: " + self.bot_dict[reqId]["bot"].name + " " + str(self.attempted_opens[ticker] + 1) + " Times")
+                  print(msg)
+                  logger.info(msg)
                self.bot_dict[reqId]["bot"].cancel_open_position()
-               print(msg)
-               logger.info(msg)
                order_condition = False
             
             if order_condition:
@@ -263,7 +277,7 @@ class IBInterface(EClient, EWrapper):
       
       for bot in self.bot_list:
          # TODO: fix history calculation time
-         history_seconds = bot.data_length * bar_sizes_secs[bar_size] * 60
+         history_seconds = bot.history_length * bar_sizes_secs[bar_size] * 60
          if history_seconds >= 86400:
             history_days = math.ceil(bot.data_length / 39.0)
             history_str = f'{history_days + 2} D'
@@ -281,17 +295,19 @@ class IBInterface(EClient, EWrapper):
    def esclame_string(msg) -> str:
       return "\n**************************\n" + msg + "\n**************************"
    
-   def marketOpen(self):
+   @classmethod
+   def marketOpen(cls):
       today = pd.Timestamp.today('UTC')
-      if self.nyse_cal.open_at_time(self.schedule, today):
+      if cls.nyse_cal.open_at_time(cls.schedule, today):
          return True
       else:
          return False
-      
-   def market_open_in_secs(self, secs: int) -> bool:
+   
+   @classmethod
+   def market_open_in_secs(cls, secs: int) -> bool:
       today = pd.Timestamp.today('UTC')
-      today.second += secs
-      if self.nyse_cal.open_at_time(self.schedule, today):
+      today += pd.Timedelta(secs, unit='seconds')
+      if cls.nyse_cal.open_at_time(cls.schedule, today):
          return True
       else:
          return False

@@ -13,6 +13,20 @@ class MovingAverage(object):
 
       return self.value
    
+class ValMovingAverage(object):
+   def __init__(self, window_size) -> None:
+      self.window_size = window_size
+      self.value = 0
+
+   def compute(self, val_list: list[float]):
+      val_sum = 0
+      for val in val_list[-self.window_size:]:
+         val_sum += float(float)
+      
+      self.value = val_sum / float(self.window_size)
+
+      return self.value
+   
 class RSIOscillator(object):
    def __init__(self, period) -> None:
       self.period = period
