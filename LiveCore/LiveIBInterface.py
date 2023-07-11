@@ -56,6 +56,7 @@ class IBInterface(EClient, EWrapper):
       EClient.__init__(self, self)
 
    def start_monitor(self):
+      print("Monitor Starting")
       self.active_monitor
       self.monitor_thread.start()
    

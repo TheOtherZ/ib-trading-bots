@@ -72,11 +72,11 @@ class TrendBot(LiveTraderBase):
 
 
          close = False
-         if self.num_held > 0 and (stop_long or self.moving_mass.value > 85 or profit_long):
+         if self.num_held > 0 and (stop_long or profit_long):
             if stop_long:
                self.stop_trades += 1
             close = True
-         elif self.num_held < 0 and (stop_short or self.moving_mass.value < 15 or profit_short):
+         elif self.num_held < 0 and (stop_short or profit_short):
             if stop_short:
                self.stop_trades += 1
             close = True
