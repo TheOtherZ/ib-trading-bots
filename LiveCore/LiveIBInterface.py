@@ -182,7 +182,7 @@ class IBInterface(EClient, EWrapper):
                else:
                   self.attempted_opens[ticker] = 0
 
-               if self.attempted_opens[ticker] % 10 == 0:
+               if self.attempted_opens[ticker] % 50 == 0:
                   msg = self.esclame_string("ATTEMPTED OPEN: " + self.bot_dict[reqId]["bot"].name + " " + str(self.attempted_opens[ticker] + 1) + " Times")
                   print(msg)
                   logger.info(msg)
@@ -279,7 +279,7 @@ class IBInterface(EClient, EWrapper):
          # TODO: fix history calculation time
          history_seconds = bot.history_length * bar_sizes_secs[bar_size] * 60
          if history_seconds >= 86400:
-            history_days = math.ceil(bot.data_length / 39.0)
+            history_days = math.ceil(bot.history_length / 39.0)
             history_str = f'{history_days + 2} D'
             print
          else:

@@ -7,13 +7,6 @@ from LiveCore.LiveIBInterface import IBInterface
 from Bots.MeanRegression.MeanRegressionBotLive import MeanRegressionBotLive
 
 def production(control_queue: Queue, out_queue: Queue):
-   print("waiting for market open")
-   while(not IBInterface.market_open_in_secs(60*30)):
-      time.sleep(10)
-   log_name = "LiveUpdateProduction-" + str(datetime.datetime.today().strftime("%Y-%m-%d")) + ".txt"
-   logging.basicConfig(filename=log_name, filemode='a', encoding='utf-8', level=logging.INFO)
-   CapitalManager.initialize(11000, "live_capital.json")
-
    bot_pool = [
       MeanRegressionBotLive(120, 80, 10, 4.0, 8, 3.0, "ALGN", 5000, simulation=False, name="ALGNRegressionBot"),# 12938.32200592398, -1.668166176, 0.7758620689655172, 58, 25, 33, 10
       MeanRegressionBotLive(120, 120, 10, 3.0, 8, 5.0, "LW", 5000, simulation=False, name="LWRegressionBot"),# 11871.847368757011, -1.6577755299999999, 0.7402597402597403, 77, 41, 36, 14
@@ -74,9 +67,15 @@ def production(control_queue: Queue, out_queue: Queue):
       MeanRegressionBotLive(80, 120, 16, 2.0, 8, 2.0, "IDXX", 5000, simulation=False, name="IDXXRegressionBot"),# 7494.554267429005, -11.772884363000854, 0.671875, 64, 34, 30, 20
       MeanRegressionBotLive(200, 120, 16, 4.0, 8, 3.0, "OXY", 5000, simulation=False, name="OXYRegressionBot"),# 7453.722499898999, -3.4575116020000003, 0.7058823529411765, 34, 20, 14, 9
       MeanRegressionBotLive(120, 120, 16, 4.0, 8, 5.0, "ANSS", 5000, simulation=False, name="ANSSRegressionBot"),# 7442.174653481999, -1.9, 0.7254901960784313, 51, 25, 26, 10
-      MeanRegressionBotLive(60, 80, 10, 3.0, 8, 3.0, "VRSN", 5000, simulation=False, name="VRSNRegressionBot"),# 6050.648202898992, -1.658224828, 0.7317073170731707, 82, 50, 32, 13 #TODO
-      MeanRegressionBotLive(120, 80, 10, 4.0, 8, 4.0, "SPGI", 5000, simulation=False, name="SPGIRegressionBot"),# 6649.036092157002, -1.8599999999999999, 0.7368421052631579, 57, 31, 26, 4 #TODO
       ]
+
+   print("waiting for market open")
+   while(not IBInterface.market_open_in_secs(60*30)):
+      time.sleep(10)
+   log_name = "LiveUpdateProduction-" + str(datetime.datetime.today().strftime("%Y-%m-%d")) + ".txt"
+   logging.basicConfig(filename=log_name, filemode='a', encoding='utf-8', level=logging.INFO)
+   CapitalManager.initialize(11000, "live_capital.json")
+   
    ip = "127.0.0.1"
    #ip = "192.168.50.138"
    port = 7497
@@ -93,7 +92,7 @@ def production(control_queue: Queue, out_queue: Queue):
 
    while True:
       time.sleep(5)
-      if not IBInterface.marketOpen():
+      if not IBInterface.marketOpen() and not IBInterface.market_open_in_secs(60*31):
          time.sleep(30)
          print("Market closed")
          interface.disconnect()
@@ -119,13 +118,14 @@ if __name__ == "__main__":
       prod_val = None
 
       while True:
-         val = input("Enter q to quit or symbol to manually close:\n")
+         #val = input("Enter q to quit or symbol to manually close:\n")
          console_queue.put(val)
          if not data_queue.empty():
             prod_val = data_queue.get()
          if val == 'q' or prod_val == 'q':
             time.sleep(10)
             break
+         time.sleep(5)
       
       prod_process.join()
       if val == 'q':
