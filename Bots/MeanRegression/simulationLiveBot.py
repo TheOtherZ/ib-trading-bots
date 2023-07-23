@@ -41,14 +41,14 @@ def build_config_list(frame="fast") -> list:
 
 
 def simSp500(log_name):
-   test_trader_config = build_config_list("long")
+   test_trader_config = build_config_list("medium")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
    ticker_file = "S&P500-Symbols.csv"
    #ticker_file = "quick-list-mean-conversion-live.csv"
    #ticker_file = "etf-symbols.csv"
 
-   simulate_ticker_group(MeanRegressionBotLive, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=None)
+   simulate_ticker_group(MeanRegressionBotLive, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=30)
 
 def simSp50030Min():
    test_trader_list = build_config_list("fast")
@@ -126,8 +126,8 @@ def simBotPool():
 
 
 if __name__ == "__main__":
-   name = "no-rsi-9-all-500.txt"
-   #simSp500(name)
+   name = "no-rsi-10-all-500.txt"
+   simSp500(name)
    #simSp500OneBot()
-   reduce_results(name, "reduced-win-rate-" + name, 0.65)
-   convert_to_prototypes("reduced-win-rate-" + name, "prototypes-" + name, 5000)
+   # reduce_results(name, "reduced-win-rate-" + name, 0.65)
+   # convert_to_prototypes("reduced-win-rate-" + name, "prototypes-" + name, 5000)

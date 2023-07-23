@@ -119,7 +119,7 @@ if __name__ == "__main__":
 
       while True:
          #val = input("Enter q to quit or symbol to manually close:\n")
-         console_queue.put(val)
+         #console_queue.put(val)
          if not data_queue.empty():
             prod_val = data_queue.get()
          if val == 'q' or prod_val == 'q':

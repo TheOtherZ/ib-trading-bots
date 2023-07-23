@@ -114,6 +114,13 @@ class IBInterface(EClient, EWrapper):
    def connect(self, host, port, clientId):
       return super().connect(host, port, clientId)
    
+   def error(self, reqId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
+      super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
+   #  if advancedOrderRejectJson:
+   #    print("Error. Id:", reqId, "Code:", errorCode, "Msg:", errorString, "AdvancedOrderRejectJson:", advancedOrderRejectJson)
+   #  else:
+   #    print("Error. Id:", reqId, "Code:", errorCode, "Msg:", errorString)
+   
    #### Data
    def reqHistoricalData(self, reqId, bot: LiveTraderBase, endDateTime: str, durationStr: str, barSizeSetting: str, whatToShow: str, useRTH: int, formatDate: int, keepUpToDate: bool, chartOptions):
       self.bot_dict[reqId] = {}
@@ -183,7 +190,13 @@ class IBInterface(EClient, EWrapper):
                else:
                   self.attempted_opens[ticker] = 0
 
-               if self.attempted_opens[ticker] % 50 == 0:
+               message_filter = 50
+               if self.attempted_opens[ticker] > 200:
+                  message_filter = 200
+               elif self.attempted_opens[ticker] > 1000:
+                  message_filter = 1000
+
+               if self.attempted_opens[ticker] % message_filter == 0:
                   msg = self.esclame_string("ATTEMPTED OPEN: " + self.bot_dict[reqId]["bot"].name + " " + str(self.attempted_opens[ticker] + 1) + " Times")
                   print(msg)
                   logger.info(msg)

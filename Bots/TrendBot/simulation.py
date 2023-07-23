@@ -40,11 +40,37 @@ def simSp500(log_name):
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
    #ticker_file = "S&P500-Symbols.csv"
-   #ticker_file = "quick-list-mean-conversion-live.csv"
-   ticker_file = "etf-symbols.csv"
+   ticker_file = "short-list-crossing-trend.csv"
+   #ticker_file = "etf-symbols.csv"
 
-   simulate_ticker_group(TrendBot, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=None)
+   simulate_ticker_group(TrendBot, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=8)
+
+def reduce_results(file_name, out_name, win_rate):
+   with open(file_name, 'r') as src:
+      with open(out_name, 'w') as dest:
+         tickers = []
+         for line in src:
+            data = line.split(" ")
+            ticker = data[0]
+            winning = float(data[3].strip(','))
+            if ticker not in tickers and winning >= win_rate:
+               tickers.append(ticker)
+               dest.write(line)
+
+def convert_to_prototypes(file_name, out_name, capital=5000):
+   import re
+   regex = re.compile("\(([^\)]+)\)")
+   with open(file_name, 'r') as src:
+      with open(out_name, 'w') as dest:
+         for line in src:
+            ticker = line.split(" ")[0]
+            results = regex.findall(line)
+            params = results[1]
+            prototype = 'TrendBot(' + params + ', "' + ticker + '", ' + "capital=" + str(capital) + ', simulation=False, name="'+ ticker + 'TrendBot"),# ' + results[0] + '\n'
+            dest.write(prototype)
 
 if __name__ == "__main__":
-   log_name = "POC-ETFs-LONG.txt"
-   simSp500(log_name)
+   log_name = "POC-500.txt"
+   #simSp500(log_name)
+   #reduce_results(log_name, "reduced-" + log_name, 0.7)
+   convert_to_prototypes("reduced-" + log_name, "prototypes-" + log_name)

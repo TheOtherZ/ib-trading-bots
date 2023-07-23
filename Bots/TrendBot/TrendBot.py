@@ -32,6 +32,7 @@ class TrendBot(LiveTraderBase):
       # TODO: add to base?
       self.trade_active = False
       self.quantity_to_open = 1
+      self.history_length = self.data_length
 
    def process(self, bar: BarData, new_bar=False):
       instant_velocity = bar.close - bar.open
