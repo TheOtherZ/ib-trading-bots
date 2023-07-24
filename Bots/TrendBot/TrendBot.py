@@ -29,6 +29,11 @@ class TrendBot(LiveTraderBase):
       self.velocity_list = [0]
       self.data_length = average_velocity_window + 1
 
+      # TODO: add to base?
+      self.trade_active = False
+      self.quantity_to_open = 1
+      self.history_length = self.data_length
+
    def process(self, bar: BarData, new_bar=False):
       instant_velocity = bar.close - bar.open
 
@@ -53,11 +58,12 @@ class TrendBot(LiveTraderBase):
          self.moving_average_velocity.compute(self.velocity_list)
          self.quick_moving_average_velocity.compute(self.velocity_list)
 
+      self.quantity_to_open = self.compute_share_quantity(bar.close, self.capital)
+
       if not self.trade_active:
          return 0
 
-      open_long = False
-      open_short = False
+      open_long, open_short = compute_percent_threshold(self.moving_average_velocity.value, self.quick_moving_average_velocity.value, self.jump_threshold_percent)
 
       
       if self.num_held == 0:
@@ -72,11 +78,11 @@ class TrendBot(LiveTraderBase):
 
 
          close = False
-         if self.num_held > 0 and (stop_long or self.moving_mass.value > 85 or profit_long):
+         if self.num_held > 0 and (stop_long or profit_long):
             if stop_long:
                self.stop_trades += 1
             close = True
-         elif self.num_held < 0 and (stop_short or self.moving_mass.value < 15 or profit_short):
+         elif self.num_held < 0 and (stop_short or profit_short):
             if stop_short:
                self.stop_trades += 1
             close = True
@@ -85,4 +91,8 @@ class TrendBot(LiveTraderBase):
             self.order(bar.close, -self.num_held)
 
       return super().process()
+   
+
+   def get_parameters(self):
+      return self.jump_threshold_percent, self.moving_average_velocity.window_size, self.quick_moving_average_velocity.window_size, self.stop_loss, self.proft_take
       

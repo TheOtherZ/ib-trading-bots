@@ -76,8 +76,6 @@ class LiveTraderBase(object):
             buy = True if quantity > 0 else False
             self.simulate_costs(quantity, price, buy)
             self.confirm_order(price, quantity)
-      else:
-         logger.info(f"{self.name}: order of {quantity} at {price}")
 
    def confirm_order(self, avg_price: float, quantity: int):
       # Stats

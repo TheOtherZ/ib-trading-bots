@@ -21,7 +21,7 @@ class ValMovingAverage(object):
    def compute(self, val_list: list[float]):
       val_sum = 0
       for val in val_list[-self.window_size:]:
-         val_sum += float(float)
+         val_sum += float(val)
       
       self.value = val_sum / float(self.window_size)
 
