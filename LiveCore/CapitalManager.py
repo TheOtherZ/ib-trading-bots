@@ -23,46 +23,41 @@ class CapitalManager():
    @classmethod
    def add_capital(cls, cap):
       with cls._lock:
-         save = open(cls._save_file_path, "r")
-         data = json.load(save)
-         save.close()
-         capital = cap
-         capital += float(data["capital"])
-         data["capital"] = round(capital, 2)
+         with open(cls._save_file_path, "r") as save:
+            data = json.load(save)
+            capital = cap
+            capital += float(data["capital"])
+            data["capital"] = round(capital, 2)
 
-         save = open(cls._save_file_path, "w")
-         json.dump(data, save)
-         save.close()
+         with open(cls._save_file_path, "w") as save:
+            json.dump(data, save)
 
    @classmethod
    def take_capital(cls, cap):
       available_cap = 0
       with cls._lock:
-         save = open(cls._save_file_path, "r")
-         data = json.load(save)
-         save.close()
-         capital = float(data["capital"])
-         if capital > cap:
-            capital -= cap
-            available_cap = cap
-         elif capital > 0:
-            available_cap = capital
-            capital = 0.0
-         data["capital"] = round(capital, 2)
+         with open(cls._save_file_path, "r") as save:
+            data = json.load(save)
+            capital = float(data["capital"])
+            if capital > cap:
+               capital -= cap
+               available_cap = cap
+            elif capital > 0:
+               available_cap = capital
+               capital = 0.0
+            data["capital"] = round(capital, 2)
 
-         save = open(cls._save_file_path, "w")
-         json.dump(data, save)
-         save.close()
+         with open(cls._save_file_path, "w") as save:
+            json.dump(data, save)
       
       return available_cap
    
    @classmethod
    def get_available_capital(cls):
       with cls._lock:
-         save = open(cls._save_file_path, "r")
-         data = json.load(save)
-         save.close()
-         return data["capital"]      
+         with open(cls._save_file_path, "r") as save:
+            data = json.load(save)
+            return data["capital"]      
 
    def __new__(cls):
       if cls._instance is None: 
@@ -78,9 +73,12 @@ def capital_user():
    for _ in range(30):
       rand_wait = random.random()
       rand_capital = 5000 * random.random()
-      rand_capital = CapitalManager.take_capital(rand_capital)
-      time.sleep(rand_wait)
-      CapitalManager.add_capital(rand_capital)
+      if CapitalManager.get_available_capital() > rand_capital:
+         rand_capital = CapitalManager.take_capital(rand_capital)
+         time.sleep(rand_wait)
+         CapitalManager.add_capital(rand_capital)
+      else:
+         time.sleep(rand_wait)
 
    
 if __name__ == "__main__":
