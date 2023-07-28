@@ -23,20 +23,22 @@ class CapitalManager():
    @classmethod
    def add_capital(cls, cap):
       with cls._lock:
-         with open(cls._save_file_path, "r") as save:
+         with open(cls._save_file_path, "r+") as save:
             data = json.load(save)
             capital = cap
             capital += float(data["capital"])
             data["capital"] = round(capital, 2)
 
-         with open(cls._save_file_path, "w") as save:
-            json.dump(data, save)
+            json_data = json.dumps(data, indent=3)
+            save.seek(0)
+            save.write(json_data)
+            save.truncate()
 
    @classmethod
    def take_capital(cls, cap):
       available_cap = 0
       with cls._lock:
-         with open(cls._save_file_path, "r") as save:
+         with open(cls._save_file_path, "r+") as save:
             data = json.load(save)
             capital = float(data["capital"])
             if capital > cap:
@@ -47,8 +49,10 @@ class CapitalManager():
                capital = 0.0
             data["capital"] = round(capital, 2)
 
-         with open(cls._save_file_path, "w") as save:
-            json.dump(data, save)
+            json_data = json.dumps(data, indent=3)
+            save.seek(0)
+            save.write(json_data)
+            save.truncate()
       
       return available_cap
    
@@ -80,8 +84,7 @@ def capital_user():
       else:
          time.sleep(rand_wait)
 
-   
-if __name__ == "__main__":
+def threadTest():
    #Test the capital singlton
    CapitalManager.initialize(60000)
    thread_list = []
@@ -93,3 +96,21 @@ if __name__ == "__main__":
 
    for thread in thread_list:
       thread.join()
+
+def simpleTest():
+   CapitalManager.initialize(60000)
+
+   cap = CapitalManager.get_available_capital()
+   print(cap)
+   CapitalManager.take_capital(cap)
+
+   print(CapitalManager.get_available_capital())
+
+   CapitalManager.add_capital(cap)
+
+   print(CapitalManager.get_available_capital())
+
+   
+if __name__ == "__main__":
+   #simpleTest()
+   threadTest()
