@@ -25,6 +25,11 @@ class TrendBot(LiveTraderBase):
       self.moving_average_velocity = ind.ValMovingAverage(average_velocity_window)
       self.quick_moving_average_velocity = ind.ValMovingAverage(quick_velocity_window)
 
+      self.accel_list = [0]
+      self.last_velocity = 0
+      self.accel_avg = ind.ValMovingAverage(int(quick_velocity_window * 2))
+
+
       self.bar_list = []
       self.velocity_list = [0]
       self.data_length = average_velocity_window + 1
@@ -36,6 +41,7 @@ class TrendBot(LiveTraderBase):
 
    def process(self, bar: BarData, new_bar=False):
       instant_velocity = bar.close - bar.open
+      instant_acceleration = instant_velocity - self.last_velocity
 
       if new_bar:
          # Handle bar storage
@@ -50,13 +56,21 @@ class TrendBot(LiveTraderBase):
          self.velocity_list.append(instant_velocity)
          if len(self.velocity_list) > self.moving_average_velocity.window_size + 1:
             self.velocity_list.pop(0)
+         
+         # Handle acceleration storage
+         self.last_velocity = instant_velocity
+         self.accel_list.append(instant_acceleration)
+         if len(self.accel_list) > self.accel_avg.window_size + 1:
+            self.accel_list.pop(0)
       else:
          self.bar_list[-1] = bar
          self.velocity_list[-1] = instant_velocity
+         self.accel_list[-1] = instant_acceleration
 
       if len(self.velocity_list) > self.moving_average_velocity.window_size:
          self.moving_average_velocity.compute(self.velocity_list)
          self.quick_moving_average_velocity.compute(self.velocity_list)
+         self.accel_avg.compute(self.accel_list)
 
       self.quantity_to_open = self.compute_share_quantity(bar.close, self.capital)
 
@@ -67,9 +81,9 @@ class TrendBot(LiveTraderBase):
 
       
       if self.num_held == 0:
-         if open_long:
+         if open_long and self.accel_avg.value > 0:
             self.order(bar.close, self.quantity_to_open)
-         elif open_short:
+         elif open_short and self.accel_avg.value < 0:
             self.order(bar.close, -self.quantity_to_open)
 
       else:
@@ -78,11 +92,11 @@ class TrendBot(LiveTraderBase):
 
 
          close = False
-         if self.num_held > 0 and (stop_long or profit_long):
+         if self.num_held > 0 and (stop_long or profit_long) and not open_long:
             if stop_long:
                self.stop_trades += 1
             close = True
-         elif self.num_held < 0 and (stop_short or profit_short):
+         elif self.num_held < 0 and (stop_short or profit_short)and not open_short:
             if stop_short:
                self.stop_trades += 1
             close = True

@@ -11,7 +11,7 @@ from TraderCore.HelperFunctions import compute_percent_threshold
 
 
 class MeanRegressionBotLive(LiveTraderBase):
-   def __init__(self, average_window: int, momentum_window_long: int, momentum_window: int, stop_loss: float, rsi_window: int, profit_take: float, ticker: str, capital: float=15000.0, cost: TradingCosts=ibkr_trading_costs, simulation: bool = True, name: str = "none_bot") -> None:
+   def __init__(self, average_window: int, momentum_window_long: int, momentum_window: int, stop_loss: float, rsi_window: int, profit_take: float, ticker: str, capital: float=10000.0, cost: TradingCosts=ibkr_trading_costs, simulation: bool = True, name: str = "none_bot") -> None:
       super().__init__(trading_costs=cost, name=name, simulation=simulation, capital=capital)
 
       self.ticker = ticker

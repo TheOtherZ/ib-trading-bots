@@ -75,8 +75,9 @@ def simulate_ticker_group(trader_cls, trader_config_list: list, data_dir, ticker
    results.sort(key=lambda x: x.profit, reverse=True)
 
    print("Completed in %s" % (time.time() - start_time))
-   for result in results[:25]:
-      print(f"{result.ticker} {result.get_stats()} {result.get_parameters()}")
+   if print_len is not None:
+      for result in results[:print_len]:
+         print(f"{result.ticker} {result.get_stats()} {result.get_parameters()}")
 
    if sav_file is not None:
       with open(sav_file, 'w') as f:

@@ -18,6 +18,12 @@ def build_config_list(frame="fast") -> list:
       quick_velocity_window_list = [10, 16, 24, 36]
       stop_loss_list = [1.0, 2.0, 3.0]
       profit_take_list = [1.0, 2.0, 3.0]
+   elif frame == "medium":
+      jump_threshold_percent_list = [2.0, 3.0, 4.0]
+      average_velocity_window_list = [60, 80, 120, 200]
+      quick_velocity_window_list = [10, 16, 24, 36]
+      stop_loss_list = [1.0, 2.0]
+      profit_take_list = [1.0, 2.0, 3.0]
    else:
       jump_threshold_percent_list = [1.0]
       average_velocity_window_list = [40, 60, 80]
@@ -39,13 +45,14 @@ def simSp500(log_name):
    test_trader_config = build_config_list("long")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   #ticker_file = "S&P500-Symbols.csv"
-   ticker_file = "short-list-crossing-trend.csv"
+   ticker_file = "S&P500-Symbols.csv"
+   #ticker_file = "tickers-POC-500-Long.csv"
+   #ticker_file = "short-list-crossing-trend.csv"
    #ticker_file = "etf-symbols.csv"
 
-   simulate_ticker_group(TrendBot, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=8)
+   simulate_ticker_group(TrendBot, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=20)
 
-def reduce_results(file_name, out_name, win_rate):
+def reduce_results(file_name, out_name, win_rate, print_ln=False):
    with open(file_name, 'r') as src:
       with open(out_name, 'w') as dest:
          tickers = []
@@ -56,6 +63,8 @@ def reduce_results(file_name, out_name, win_rate):
             if ticker not in tickers and winning >= win_rate:
                tickers.append(ticker)
                dest.write(line)
+               if print_ln:
+                  print(line.strip('\n'))
 
 def convert_to_prototypes(file_name, out_name, capital=5000):
    import re
@@ -69,8 +78,18 @@ def convert_to_prototypes(file_name, out_name, capital=5000):
             prototype = 'TrendBot(' + params + ', "' + ticker + '", ' + "capital=" + str(capital) + ', simulation=False, name="'+ ticker + 'TrendBot"),# ' + results[0] + '\n'
             dest.write(prototype)
 
+def convert_to_ticker_csv(file_name, out_name):
+   with open(file_name, 'r') as src:
+      with open(out_name, 'w') as dest:
+         num = 0
+         for line in src:
+            ticker = line.split(" ")[0]
+            dest.write(f"{num},{ticker}\n")
+            num += 1
+
 if __name__ == "__main__":
-   log_name = "POC-500.txt"
-   #simSp500(log_name)
-   #reduce_results(log_name, "reduced-" + log_name, 0.7)
-   convert_to_prototypes("reduced-" + log_name, "prototypes-" + log_name)
+   log_name = "POC-500-acceleration-close.txt"
+   simSp500(log_name)
+   reduce_results(log_name, "reduced-" + log_name, 0.5, True)
+   #convert_to_ticker_csv("reduced-" + log_name, "tickers-" + log_name)
+   #convert_to_prototypes("reduced-" + log_name, "prototypes-" + log_name)
