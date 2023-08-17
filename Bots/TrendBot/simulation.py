@@ -45,9 +45,9 @@ def simSp500(log_name):
    test_trader_config = build_config_list("long")
 
    ticker_dir = "C:\\Users\\ezimb\\source\\repos\\IBBotTransfer\\IBBot\\Data\\SP500_10Min\\"
-   ticker_file = "S&P500-Symbols.csv"
+   #ticker_file = "S&P500-Symbols.csv"
    #ticker_file = "tickers-POC-500-Long.csv"
-   #ticker_file = "short-list-crossing-trend.csv"
+   ticker_file = "tickers-POC-500-acceleration-ALL.csv"
    #ticker_file = "etf-symbols.csv"
 
    simulate_ticker_group(TrendBot, test_trader_config, ticker_dir, ticker_file, top_traders=5, sav_file=log_name, print_len=None, thread_limit=20)
@@ -88,8 +88,8 @@ def convert_to_ticker_csv(file_name, out_name):
             num += 1
 
 if __name__ == "__main__":
-   log_name = "POC-500-acceleration-close.txt"
+   log_name = "POC-Short-List-acceleration-close.txt"
    simSp500(log_name)
    reduce_results(log_name, "reduced-" + log_name, 0.5, True)
    #convert_to_ticker_csv("reduced-" + log_name, "tickers-" + log_name)
-   #convert_to_prototypes("reduced-" + log_name, "prototypes-" + log_name)
+   convert_to_prototypes("reduced-" + log_name, "prototypes-" + log_name)

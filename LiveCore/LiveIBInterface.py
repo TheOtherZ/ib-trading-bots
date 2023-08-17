@@ -264,6 +264,8 @@ class IBInterface(EClient, EWrapper):
                      print(f"Existing position found: {decimalMaxString(position)}, Symbol: {contract.symbol}, Avg cost: {floatMaxString(avgCost)}")
                      bot.num_held = float(position)
                      bot.average_price = float(avgCost)
+                  else:
+                     print(f"Existing position found: {decimalMaxString(position)}, Symbol: {contract.symbol}, but no bot!")
    
    def reqPositions(self):
       """IMPORTANT: only request at startup"""
