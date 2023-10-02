@@ -14,6 +14,8 @@ import pandas_market_calendars as mcal
 class HistoryCollector(EClient, EWrapper):
    def __init__(self, contract: Contract, connection_info: ConnectionInfo, root_dir=None):
       EClient.__init__(self, self)
+      self.collection_failed = False
+      self.log_dir = ""
       self.log_file = None
       self.run_thread = Thread(target=self.run, daemon=True)
       self.collection_complete = False
@@ -62,7 +64,7 @@ class HistoryCollector(EClient, EWrapper):
          end_of_days.append(new_day)
 
       # List of day data file names
-      master_file_name = self.contract.symbol + "_" + start_date + "_" + end_date + "_" + interval + ".txt"
+      master_file_name = self.log_dir + self.contract.symbol + "_" + start_date + "_" + end_date + "_" + interval + ".txt"
       if self.root_dir is not None:
             master_file_name = self.root_dir + master_file_name
       master_file_handle = open(master_file_name, 'a')
@@ -70,7 +72,7 @@ class HistoryCollector(EClient, EWrapper):
       trading_day_seconds = str(int(60 * 60 * 6.5)) + " S"
 
       for trading_day in end_of_days:
-         log_name = trading_day.strftime("%Y-%m-%d_") + self.contract.symbol + ".csv"
+         log_name = self.log_dir + trading_day.strftime("%Y-%m-%d_") + self.contract.symbol + ".csv"
          if self.root_dir is not None:
             log_name = self.root_dir + log_name
          master_file_handle.write(log_name + "\n")
@@ -86,7 +88,13 @@ class HistoryCollector(EClient, EWrapper):
       # Cleanup
       master_file_handle.close()
       self.disconnect()
+      return self.collection_failed
 
    def error(self, reqId: TickerId, errorCode: int, errorString: str, advancedOrderRejectJson=""):
       super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
-      self.disconnect()
+      if int(errorCode) == 200:
+         self.collection_complete = True
+         self.collection_failed = True
+   
+   def setLogDir(self, dir):
+      self.log_dir = dir

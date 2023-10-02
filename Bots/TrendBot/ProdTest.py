@@ -7,17 +7,17 @@ from LiveCore.LiveIBInterface import IBInterface
 from TrendBot import TrendBot
 
 def production(control_queue: Queue, out_queue: Queue):
-   bot_pool = [
-      TrendBot(1.0, 200, 36, 3.0, 1.0, "EPAM", capital=5000, simulation=False, name="EPAMTrendBot"),# 28891.919180187953, -79.90057475300006, 0.7571606475716065, 803, 436, 367, 194
-      TrendBot(3.0, 40, 24, 3.0, 1.0, "RCL", capital=5000, simulation=False, name="RCLTrendBot"),# 23104.601400981042, -1446.6853098429785, 0.7437020810514786, 913, 459, 454, 233
-      TrendBot(2.0, 80, 10, 3.0, 1.0, "ETSY", capital=5000, simulation=False, name="ETSYTrendBot"),# 22717.708481326983, -4926.9851986860085, 0.7414548641542507, 1141, 566, 575, 294
-      TrendBot(1.0, 60, 16, 3.0, 1.0, "FTNT", capital=5000, simulation=False, name="FTNTTrendBot"),# 18913.405885482156, -1322.791760194201, 0.7539797395079595, 691, 363, 328, 169
-      TrendBot(4.0, 60, 16, 3.0, 1.0, "AAL", capital=5000, simulation=False, name="AALTrendBot"),# 18425.99925114206, -1274.7570264960057, 0.7506112469437652, 818, 405, 413, 203
-      TrendBot(4.0, 200, 36, 3.0, 1.0, "CTLT", capital=5000, simulation=False, name="CTLTTrendBot"),# 17549.390085353014, -754.9931844180035, 0.765625, 576, 312, 264, 134
-      TrendBot(4.0, 80, 16, 3.0, 1.0, "DISH", capital=5000, simulation=False, name="DISHTrendBot"),# 17297.617115968034, -1836.0830295329952, 0.7544303797468355, 790, 374, 416, 193
-      TrendBot(3.0, 60, 16, 2.0, 1.0, "TRMB", capital=5000, simulation=False, name="TRMBTrendBot"),# 15362.552755349012, -1.77169387, 0.7092307692307692, 650, 334, 316, 188
-      TrendBot(1.0, 40, 10, 3.0, 1.0, "PSX", capital=5000, simulation=False, name="PSXTrendBot"),# 15191.587751746063, -1.771745166, 0.7639639639639639, 555, 288, 267, 130
-      TrendBot(3.0, 80, 36, 3.0, 1.0, "META", capital=5000, simulation=False, name="METATrendBot"),# 14871.385643973004, -953.8884343579986, 0.7513321492007105, 563, 301, 
+   bot_pool = [      
+      TrendBot(3.0, 200, 36, 2.0, 1.0, "EPAM", capital=5000, simulation=False, name="EPAMTrendBot"),# 29878.210503528986, -1251.371551998993, 0.6022099447513812, 362, 183, 179, 143
+      TrendBot(1.0, 60, 24, 3.0, 2.0, "DISH", capital=5000, simulation=False, name="DISHTrendBot"),# 28526.128198269973, -1581.1008376240072, 0.6263345195729537, 281, 145, 136, 104
+      TrendBot(1.0, 40, 24, 2.0, 1.0, "AMD", capital=5000, simulation=False, name="AMDTrendBot"),# 24672.209800031043, -868.545210940998, 0.6260296540362438, 607, 312, 295, 226
+      TrendBot(4.0, 80, 24, 3.0, 2.0, "ETSY", capital=5000, simulation=False, name="ETSYTrendBot"),# 24029.039467935036, -552.479452119, 0.5857843137254902, 408, 205, 203, 168
+      TrendBot(3.0, 40, 24, 3.0, 2.0, "TSLA", capital=5000, simulation=False, name="TSLATrendBot"),# 23189.814328369346, -626.1506396085229, 0.5985576923076923, 416, 208, 208, 166
+      TrendBot(4.0, 60, 24, 3.0, 3.0, "NVDA", capital=5000, simulation=False, name="NVDATrendBot"),# 21653.423849827752, -1699.4211564739996, 0.55, 280, 146, 134, 125
+      TrendBot(1.0, 80, 16, 3.0, 1.0, "F", capital=5000, simulation=False, name="FTrendBot"),# 21146.173582791977, -1595.0310907840003, 0.6868131868131868, 364, 178, 186, 113
+      TrendBot(2.0, 80, 16, 3.0, 1.0, "CDNS", capital=5000, simulation=False, name="CDNSTrendBot"),# 21003.065503829966, -241.11799125599904, 0.7424749163879598, 299, 146, 153, 76
+      TrendBot(1.0, 40, 10, 3.0, 1.0, "META", capital=5000, simulation=False, name="METATrendBot"),# 20717.83948357998, -1.77436401, 0.7044198895027625, 362, 185, 177, 106
+      TrendBot(1.0, 40, 16, 3.0, 3.0, "TER", capital=5000, simulation=False, name="TERTrendBot"),# 20697.40556529702, -1182.7585544269948, 0.5726495726495726, 234, 120, 114, 99
       ]
 
    print("waiting for market open")

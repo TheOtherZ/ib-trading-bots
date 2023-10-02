@@ -8,7 +8,7 @@ if __name__ == "__main__":
    contract.exchange = "SMART"
    contract.currency = "USD"
 
-   connection = ConnectionInfo("192.168.50.243", 7497, 1)
+   connection = ConnectionInfo("172.0.0.1", 7497, 1)
 
    collector = HistoryCollector(contract, connection)
 
