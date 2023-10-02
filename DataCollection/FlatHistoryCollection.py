@@ -16,6 +16,7 @@ class FlatHistoryCollector(EClient, EWrapper):
       self.collection_complete = False
       self.contract = contract
       self.connection_info = connection_info
+      self.failed_collection = False
 
    def start_loop(self):
       self.run_thread.start()
@@ -36,10 +37,10 @@ class FlatHistoryCollector(EClient, EWrapper):
       
    def error(self, reqId, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
       #print(f"Error occurred: {errorCode} " + errorString)
-      if errorCode == 162 or errorCode == 200:
+      if int(errorCode) == 162 or int(errorCode) == 200:
          self.cancelHistoricalData(reqId)
-         self.disconnect()
          self.collection_complete = True
+         self.failed_collection = True
       super().error(reqId, errorCode, errorString, advancedOrderRejectJson)
 
    def open_log_file(self, file_name):
@@ -57,10 +58,12 @@ class FlatHistoryCollector(EClient, EWrapper):
 
    def startup(self):
       self.connect(*self.connection_info.get_info())
+      time.sleep(10)
       self.start_loop()
+      time.sleep(2)
+
 
    def collectDayData(self, duration, end_date: str, interval: str, dir=None) -> None:
-      time.sleep(2)
       if end_date == "":
          str_end_date = str(datetime.datetime.today().date())
       else:
@@ -78,6 +81,8 @@ class FlatHistoryCollector(EClient, EWrapper):
 
       # Cleanup
       self.close_log_file()
+
+      return self.failed_collection
 
 if __name__ == "__main__":
    contract = Contract()
