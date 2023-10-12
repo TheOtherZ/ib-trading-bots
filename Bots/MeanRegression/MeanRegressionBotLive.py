@@ -125,6 +125,9 @@ class MeanRegressionBotLive(LiveTraderBase):
             close = True
          
          if close:
+            if not stop_long or stop_short:
+               self.bars_to_purge = 1
+               self.save_value("bars_to_purge", self.bars_to_purge)
             self.order(bar.close, -self.num_held)
 
       return super().process()
